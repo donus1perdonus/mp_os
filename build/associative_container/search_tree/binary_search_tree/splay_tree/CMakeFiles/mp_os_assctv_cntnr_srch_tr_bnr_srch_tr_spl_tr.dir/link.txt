@@ -1,0 +1,2 @@
+C:\msys64\ucrt64\bin\ar.exe qc libmp_os_assctv_cntnr_srch_tr_bnr_srch_tr_spl_tr.a
+C:\msys64\ucrt64\bin\ranlib.exe libmp_os_assctv_cntnr_srch_tr_bnr_srch_tr_spl_tr.a

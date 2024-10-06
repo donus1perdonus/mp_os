@@ -23,6 +23,8 @@ public:
         std::string const &configuration_file_path,
         std::string const &configuration_path) = 0;
 
+    virtual logger_builder* set_format(std::string const& format) = 0;
+
     virtual logger_builder *clear() = 0;
 
     virtual logger *build() const = 0;
@@ -31,7 +33,6 @@ protected:
 
     static logger::severity string_to_severity(
         std::string const &severity_string);
-
 };
 
 #endif //MATH_PRACTICE_AND_OPERATING_SYSTEMS_LOGGER_BUILDER_H
