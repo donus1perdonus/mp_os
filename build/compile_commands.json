@@ -229,13 +229,13 @@
 },
 {
   "directory": "C:/Users/artio/projectsvscode/mp_os/build/logger/client_logger",
-  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/mp_os_lggr_clnt_lggr.dir/includes_CXX.rsp -g -std=c++14 -o CMakeFiles\\mp_os_lggr_clnt_lggr.dir\\src\\client_logger.cpp.obj -c C:\\Users\\artio\\projectsvscode\\mp_os\\logger\\client_logger\\src\\client_logger.cpp",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/mp_os_lggr_clnt_lggr.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\mp_os_lggr_clnt_lggr.dir\\src\\client_logger.cpp.obj -c C:\\Users\\artio\\projectsvscode\\mp_os\\logger\\client_logger\\src\\client_logger.cpp",
   "file": "C:/Users/artio/projectsvscode/mp_os/logger/client_logger/src/client_logger.cpp",
   "output": "logger/client_logger/CMakeFiles/mp_os_lggr_clnt_lggr.dir/src/client_logger.cpp.obj"
 },
 {
   "directory": "C:/Users/artio/projectsvscode/mp_os/build/logger/client_logger",
-  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/mp_os_lggr_clnt_lggr.dir/includes_CXX.rsp -g -std=c++14 -o CMakeFiles\\mp_os_lggr_clnt_lggr.dir\\src\\client_logger_builder.cpp.obj -c C:\\Users\\artio\\projectsvscode\\mp_os\\logger\\client_logger\\src\\client_logger_builder.cpp",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/mp_os_lggr_clnt_lggr.dir/includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\mp_os_lggr_clnt_lggr.dir\\src\\client_logger_builder.cpp.obj -c C:\\Users\\artio\\projectsvscode\\mp_os\\logger\\client_logger\\src\\client_logger_builder.cpp",
   "file": "C:/Users/artio/projectsvscode/mp_os/logger/client_logger/src/client_logger_builder.cpp",
   "output": "logger/client_logger/CMakeFiles/mp_os_lggr_clnt_lggr.dir/src/client_logger_builder.cpp.obj"
 },

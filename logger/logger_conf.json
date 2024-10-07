@@ -1,0 +1,15 @@
+{
+    "file_paths": [
+        {
+            "path": "C:\\Users\\artio\\projectsvscode\\mp_os\\logs\\1.txt",
+            "severity": [
+                "trace",
+                "debug",
+                "information",
+                "critical",
+                "error",
+                "warning"
+            ]
+        }
+    ]
+}

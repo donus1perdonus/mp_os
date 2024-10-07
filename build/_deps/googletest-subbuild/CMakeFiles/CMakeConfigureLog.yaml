@@ -7,5 +7,5 @@ events:
       - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeDetermineSystem.cmake:205 (message)"
       - "CMakeLists.txt:16 (project)"
     message: |
-      The system is: Windows - 10.0.22000 - AMD64
+      The system is: Windows - 10.0.22631 - AMD64
 ...

@@ -62,7 +62,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -std=c++14"
+					"fragment" : "-g -std=c++17"
 				}
 			],
 			"includes" : 
@@ -91,7 +91,7 @@
 				[
 					5
 				],
-				"standard" : "14"
+				"standard" : "17"
 			},
 			"sourceIndexes" : 
 			[
