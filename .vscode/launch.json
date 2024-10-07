@@ -24,6 +24,30 @@
             "logging": {
                 "engineLogging": true
             }
+        },
+        {
+            "name": "Run Allocator Global Heap",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/allocator/allocator_global_heap/tests/mp_os_allctr_allctr_glbl_hp_tests",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/allocator/allocator_global_heap/tests",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "build and run alc_glb_hp",
+            "miDebuggerPath": "C:\\msys64\\ucrt64\\bin\\gdb.exe",
+            "logging": {
+                "engineLogging": true
+            }
         }
     ]
 }
