@@ -2,10 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "arithmetic/big_integer/tests/Karatsuba_multiplication/mp_os_arthmtc_bg_intgr_tests_Karatsuba_mltplctn.exe"
+			"path" : "allocator/allocator_red_black_tree/tests/mp_os_allctr_allctr_rb_tr_tests.exe"
 		},
 		{
-			"path" : "arithmetic/big_integer/tests/Karatsuba_multiplication/mp_os_arthmtc_bg_intgr_tests_Karatsuba_mltplctn.pdb"
+			"path" : "allocator/allocator_red_black_tree/tests/mp_os_allctr_allctr_rb_tr_tests.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -18,10 +18,9 @@
 		],
 		"files" : 
 		[
-			"arithmetic/big_integer/tests/Karatsuba_multiplication/CMakeLists.txt",
+			"allocator/allocator_red_black_tree/tests/CMakeLists.txt",
 			"build/_deps/googletest-src/googletest/CMakeLists.txt",
-			"logger/client_logger/CMakeLists.txt",
-			"arithmetic/big_integer/CMakeLists.txt"
+			"logger/client_logger/CMakeLists.txt"
 		],
 		"nodes" : 
 		[
@@ -59,13 +58,19 @@
 				"parent" : 0
 			},
 			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 34,
+				"parent" : 0
+			},
+			{
 				"file" : 1
 			},
 			{
 				"command" : 1,
 				"file" : 1,
 				"line" : 161,
-				"parent" : 6
+				"parent" : 7
 			},
 			{
 				"file" : 2
@@ -74,16 +79,7 @@
 				"command" : 1,
 				"file" : 2,
 				"line" : 21,
-				"parent" : 8
-			},
-			{
-				"file" : 3
-			},
-			{
-				"command" : 1,
-				"file" : 3,
-				"line" : 17,
-				"parent" : 10
+				"parent" : 9
 			}
 		]
 	},
@@ -116,11 +112,11 @@
 				},
 				{
 					"backtrace" : 5,
-					"path" : "C:/Users/artio/projectsvscode/mp_os/arithmetic/big_integer/./include"
+					"path" : "C:/Users/artio/projectsvscode/mp_os/allocator/allocator/./include"
 				},
 				{
-					"backtrace" : 5,
-					"path" : "C:/Users/artio/projectsvscode/mp_os/allocator/allocator/./include"
+					"backtrace" : 6,
+					"path" : "C:/Users/artio/projectsvscode/mp_os/allocator/allocator_red_black_tree/./include"
 				},
 				{
 					"backtrace" : 2,
@@ -157,15 +153,15 @@
 		},
 		{
 			"backtrace" : 2,
-			"id" : "gtest_main::@1ea2dfc0605fe3ab2a3f"
-		},
-		{
-			"backtrace" : 2,
 			"id" : "gtest::@1ea2dfc0605fe3ab2a3f"
 		},
 		{
-			"backtrace" : 5,
-			"id" : "mp_os_arthmtc_bg_intgr::@ef276916ed2ac9027e60"
+			"backtrace" : 2,
+			"id" : "gtest_main::@1ea2dfc0605fe3ab2a3f"
+		},
+		{
+			"backtrace" : 6,
+			"id" : "mp_os_allctr_allctr_rb_tr::@873d6e7af2ba91dd5be5"
 		},
 		{
 			"backtrace" : 3,
@@ -180,7 +176,7 @@
 			"id" : "mp_os_lggr_lggr::@af94273c3084cfb43adb"
 		}
 	],
-	"id" : "mp_os_arthmtc_bg_intgr_tests_Karatsuba_mltplctn::@264f91a3cf4a8cb01c42",
+	"id" : "mp_os_allctr_allctr_rb_tr_tests::@dff829a9c15d3fb606da",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -195,42 +191,47 @@
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "..\\..\\..\\..\\lib\\libgtest_main.a",
+				"fragment" : "..\\..\\..\\lib\\libgtest_main.a",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 3,
-				"fragment" : "..\\..\\..\\..\\common\\libmp_os_cmmn.a",
+				"fragment" : "..\\..\\..\\common\\libmp_os_cmmn.a",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 4,
-				"fragment" : "..\\..\\..\\..\\logger\\client_logger\\libmp_os_lggr_clnt_lggr.a",
+				"fragment" : "..\\..\\..\\logger\\client_logger\\libmp_os_lggr_clnt_lggr.a",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 5,
-				"fragment" : "..\\..\\libmp_os_arthmtc_bg_intgr.a",
+				"fragment" : "..\\..\\allocator\\libmp_os_allctr_allctr.a",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 7,
-				"fragment" : "..\\..\\..\\..\\lib\\libgtest.a",
+				"backtrace" : 6,
+				"fragment" : "..\\libmp_os_allctr_allctr_rb_tr.a",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 9,
-				"fragment" : "..\\..\\..\\..\\logger\\logger\\libmp_os_lggr_lggr.a",
+				"backtrace" : 8,
+				"fragment" : "..\\..\\..\\lib\\libgtest.a",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 3,
-				"fragment" : "..\\..\\..\\..\\common\\libmp_os_cmmn.a",
+				"fragment" : "..\\..\\..\\common\\libmp_os_cmmn.a",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 11,
-				"fragment" : "..\\..\\..\\..\\allocator\\allocator\\libmp_os_allctr_allctr.a",
+				"backtrace" : 5,
+				"fragment" : "..\\..\\allocator\\libmp_os_allctr_allctr.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 10,
+				"fragment" : "..\\..\\..\\logger\\logger\\libmp_os_lggr_lggr.a",
 				"role" : "libraries"
 			},
 			{
@@ -240,12 +241,12 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "mp_os_arthmtc_bg_intgr_tests_Karatsuba_mltplctn",
-	"nameOnDisk" : "mp_os_arthmtc_bg_intgr_tests_Karatsuba_mltplctn.exe",
+	"name" : "mp_os_allctr_allctr_rb_tr_tests",
+	"nameOnDisk" : "mp_os_allctr_allctr_rb_tr_tests.exe",
 	"paths" : 
 	{
-		"build" : "arithmetic/big_integer/tests/Karatsuba_multiplication",
-		"source" : "arithmetic/big_integer/tests/Karatsuba_multiplication"
+		"build" : "allocator/allocator_red_black_tree/tests",
+		"source" : "allocator/allocator_red_black_tree/tests"
 	},
 	"sourceGroups" : 
 	[
@@ -262,7 +263,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "arithmetic/big_integer/tests/Karatsuba_multiplication/Karatsuba_multiplication_tests.cpp",
+			"path" : "allocator/allocator_red_black_tree/tests/allocator_red_black_tree_tests.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

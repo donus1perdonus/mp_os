@@ -1170,10 +1170,10 @@ allocator/allocator_boundary_tags/CMakeFiles/mp_os_allctr_allctr_bndr_tgs.dir/cl
 # Target rules for target allocator/allocator_boundary_tags/tests/CMakeFiles/mp_os_allctr_allctr_bndr_tgs_tests.dir
 
 # All Build rule for target.
-allocator/allocator_boundary_tags/tests/CMakeFiles/mp_os_allctr_allctr_bndr_tgs_tests.dir/all: allocator/allocator_boundary_tags/CMakeFiles/mp_os_allctr_allctr_bndr_tgs.dir/all
 allocator/allocator_boundary_tags/tests/CMakeFiles/mp_os_allctr_allctr_bndr_tgs_tests.dir/all: allocator/allocator/CMakeFiles/mp_os_allctr_allctr.dir/all
-allocator/allocator_boundary_tags/tests/CMakeFiles/mp_os_allctr_allctr_bndr_tgs_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
+allocator/allocator_boundary_tags/tests/CMakeFiles/mp_os_allctr_allctr_bndr_tgs_tests.dir/all: allocator/allocator_boundary_tags/CMakeFiles/mp_os_allctr_allctr_bndr_tgs.dir/all
 allocator/allocator_boundary_tags/tests/CMakeFiles/mp_os_allctr_allctr_bndr_tgs_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
+allocator/allocator_boundary_tags/tests/CMakeFiles/mp_os_allctr_allctr_bndr_tgs_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 allocator/allocator_boundary_tags/tests/CMakeFiles/mp_os_allctr_allctr_bndr_tgs_tests.dir/all: common/CMakeFiles/mp_os_cmmn.dir/all
 allocator/allocator_boundary_tags/tests/CMakeFiles/mp_os_allctr_allctr_bndr_tgs_tests.dir/all: logger/client_logger/CMakeFiles/mp_os_lggr_clnt_lggr.dir/all
 allocator/allocator_boundary_tags/tests/CMakeFiles/mp_os_allctr_allctr_bndr_tgs_tests.dir/all: logger/logger/CMakeFiles/mp_os_lggr_lggr.dir/all
@@ -1228,8 +1228,8 @@ _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/clean:
 # Target rules for target _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir
 
 # All Build rule for target.
-_deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/all: _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/all
 _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
+_deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/all: _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps\googletest-build\googlemock\CMakeFiles\gmock_main.dir\build.make _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps\googletest-build\googlemock\CMakeFiles\gmock_main.dir\build.make _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\artio\projectsvscode\mp_os\build\CMakeFiles --progress-num=3,4 "Built target gmock_main"
@@ -1336,9 +1336,9 @@ allocator/allocator_buddies_system/CMakeFiles/mp_os_allctr_allctr_bdds_sstm.dir/
 
 # All Build rule for target.
 allocator/allocator_buddies_system/tests/CMakeFiles/mp_os_allctr_allctr_bdds_sstm_tests.dir/all: allocator/allocator/CMakeFiles/mp_os_allctr_allctr.dir/all
+allocator/allocator_buddies_system/tests/CMakeFiles/mp_os_allctr_allctr_bdds_sstm_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
 allocator/allocator_buddies_system/tests/CMakeFiles/mp_os_allctr_allctr_bdds_sstm_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 allocator/allocator_buddies_system/tests/CMakeFiles/mp_os_allctr_allctr_bdds_sstm_tests.dir/all: allocator/allocator_buddies_system/CMakeFiles/mp_os_allctr_allctr_bdds_sstm.dir/all
-allocator/allocator_buddies_system/tests/CMakeFiles/mp_os_allctr_allctr_bdds_sstm_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
 allocator/allocator_buddies_system/tests/CMakeFiles/mp_os_allctr_allctr_bdds_sstm_tests.dir/all: common/CMakeFiles/mp_os_cmmn.dir/all
 allocator/allocator_buddies_system/tests/CMakeFiles/mp_os_allctr_allctr_bdds_sstm_tests.dir/all: logger/client_logger/CMakeFiles/mp_os_lggr_clnt_lggr.dir/all
 allocator/allocator_buddies_system/tests/CMakeFiles/mp_os_allctr_allctr_bdds_sstm_tests.dir/all: logger/logger/CMakeFiles/mp_os_lggr_lggr.dir/all
@@ -1396,8 +1396,8 @@ allocator/allocator_global_heap/CMakeFiles/mp_os_allctr_allctr_glbl_hp.dir/clean
 
 # All Build rule for target.
 allocator/allocator_global_heap/tests/CMakeFiles/mp_os_allctr_allctr_glbl_hp_tests.dir/all: allocator/allocator/CMakeFiles/mp_os_allctr_allctr.dir/all
-allocator/allocator_global_heap/tests/CMakeFiles/mp_os_allctr_allctr_glbl_hp_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 allocator/allocator_global_heap/tests/CMakeFiles/mp_os_allctr_allctr_glbl_hp_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
+allocator/allocator_global_heap/tests/CMakeFiles/mp_os_allctr_allctr_glbl_hp_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 allocator/allocator_global_heap/tests/CMakeFiles/mp_os_allctr_allctr_glbl_hp_tests.dir/all: allocator/allocator_global_heap/CMakeFiles/mp_os_allctr_allctr_glbl_hp.dir/all
 allocator/allocator_global_heap/tests/CMakeFiles/mp_os_allctr_allctr_glbl_hp_tests.dir/all: common/CMakeFiles/mp_os_cmmn.dir/all
 allocator/allocator_global_heap/tests/CMakeFiles/mp_os_allctr_allctr_glbl_hp_tests.dir/all: logger/client_logger/CMakeFiles/mp_os_lggr_clnt_lggr.dir/all
@@ -1456,8 +1456,8 @@ allocator/allocator_red_black_tree/CMakeFiles/mp_os_allctr_allctr_rb_tr.dir/clea
 
 # All Build rule for target.
 allocator/allocator_red_black_tree/tests/CMakeFiles/mp_os_allctr_allctr_rb_tr_tests.dir/all: allocator/allocator/CMakeFiles/mp_os_allctr_allctr.dir/all
-allocator/allocator_red_black_tree/tests/CMakeFiles/mp_os_allctr_allctr_rb_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 allocator/allocator_red_black_tree/tests/CMakeFiles/mp_os_allctr_allctr_rb_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
+allocator/allocator_red_black_tree/tests/CMakeFiles/mp_os_allctr_allctr_rb_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 allocator/allocator_red_black_tree/tests/CMakeFiles/mp_os_allctr_allctr_rb_tr_tests.dir/all: allocator/allocator_red_black_tree/CMakeFiles/mp_os_allctr_allctr_rb_tr.dir/all
 allocator/allocator_red_black_tree/tests/CMakeFiles/mp_os_allctr_allctr_rb_tr_tests.dir/all: common/CMakeFiles/mp_os_cmmn.dir/all
 allocator/allocator_red_black_tree/tests/CMakeFiles/mp_os_allctr_allctr_rb_tr_tests.dir/all: logger/client_logger/CMakeFiles/mp_os_lggr_clnt_lggr.dir/all
@@ -1516,8 +1516,8 @@ allocator/allocator_sorted_list/CMakeFiles/mp_os_allctr_allctr_srtd_lst.dir/clea
 
 # All Build rule for target.
 allocator/allocator_sorted_list/tests/CMakeFiles/mp_os_allctr_allctr_srtd_lst_tests.dir/all: allocator/allocator/CMakeFiles/mp_os_allctr_allctr.dir/all
-allocator/allocator_sorted_list/tests/CMakeFiles/mp_os_allctr_allctr_srtd_lst_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 allocator/allocator_sorted_list/tests/CMakeFiles/mp_os_allctr_allctr_srtd_lst_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
+allocator/allocator_sorted_list/tests/CMakeFiles/mp_os_allctr_allctr_srtd_lst_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 allocator/allocator_sorted_list/tests/CMakeFiles/mp_os_allctr_allctr_srtd_lst_tests.dir/all: allocator/allocator_sorted_list/CMakeFiles/mp_os_allctr_allctr_srtd_lst.dir/all
 allocator/allocator_sorted_list/tests/CMakeFiles/mp_os_allctr_allctr_srtd_lst_tests.dir/all: common/CMakeFiles/mp_os_cmmn.dir/all
 allocator/allocator_sorted_list/tests/CMakeFiles/mp_os_allctr_allctr_srtd_lst_tests.dir/all: logger/client_logger/CMakeFiles/mp_os_lggr_clnt_lggr.dir/all
@@ -1575,8 +1575,8 @@ arithmetic/big_integer/CMakeFiles/mp_os_arthmtc_bg_intgr.dir/clean:
 
 # All Build rule for target.
 arithmetic/big_integer/tests/big_integer/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_bgnt.dir/all: allocator/allocator/CMakeFiles/mp_os_allctr_allctr.dir/all
-arithmetic/big_integer/tests/big_integer/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_bgnt.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 arithmetic/big_integer/tests/big_integer/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_bgnt.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
+arithmetic/big_integer/tests/big_integer/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_bgnt.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 arithmetic/big_integer/tests/big_integer/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_bgnt.dir/all: arithmetic/big_integer/CMakeFiles/mp_os_arthmtc_bg_intgr.dir/all
 arithmetic/big_integer/tests/big_integer/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_bgnt.dir/all: common/CMakeFiles/mp_os_cmmn.dir/all
 arithmetic/big_integer/tests/big_integer/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_bgnt.dir/all: logger/client_logger/CMakeFiles/mp_os_lggr_clnt_lggr.dir/all
@@ -1607,8 +1607,8 @@ arithmetic/big_integer/tests/big_integer/CMakeFiles/mp_os_arthmtc_bg_intgr_tests
 
 # All Build rule for target.
 arithmetic/big_integer/tests/Burnikel_Ziegler_division/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Burnikel_Ziegler_dvsn.dir/all: allocator/allocator/CMakeFiles/mp_os_allctr_allctr.dir/all
-arithmetic/big_integer/tests/Burnikel_Ziegler_division/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Burnikel_Ziegler_dvsn.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 arithmetic/big_integer/tests/Burnikel_Ziegler_division/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Burnikel_Ziegler_dvsn.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
+arithmetic/big_integer/tests/Burnikel_Ziegler_division/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Burnikel_Ziegler_dvsn.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 arithmetic/big_integer/tests/Burnikel_Ziegler_division/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Burnikel_Ziegler_dvsn.dir/all: arithmetic/big_integer/CMakeFiles/mp_os_arthmtc_bg_intgr.dir/all
 arithmetic/big_integer/tests/Burnikel_Ziegler_division/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Burnikel_Ziegler_dvsn.dir/all: common/CMakeFiles/mp_os_cmmn.dir/all
 arithmetic/big_integer/tests/Burnikel_Ziegler_division/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Burnikel_Ziegler_dvsn.dir/all: logger/client_logger/CMakeFiles/mp_os_lggr_clnt_lggr.dir/all
@@ -1639,8 +1639,8 @@ arithmetic/big_integer/tests/Burnikel_Ziegler_division/CMakeFiles/mp_os_arthmtc_
 
 # All Build rule for target.
 arithmetic/big_integer/tests/Karatsuba_multiplication/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Karatsuba_mltplctn.dir/all: allocator/allocator/CMakeFiles/mp_os_allctr_allctr.dir/all
-arithmetic/big_integer/tests/Karatsuba_multiplication/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Karatsuba_mltplctn.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 arithmetic/big_integer/tests/Karatsuba_multiplication/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Karatsuba_mltplctn.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
+arithmetic/big_integer/tests/Karatsuba_multiplication/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Karatsuba_mltplctn.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 arithmetic/big_integer/tests/Karatsuba_multiplication/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Karatsuba_mltplctn.dir/all: arithmetic/big_integer/CMakeFiles/mp_os_arthmtc_bg_intgr.dir/all
 arithmetic/big_integer/tests/Karatsuba_multiplication/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Karatsuba_mltplctn.dir/all: common/CMakeFiles/mp_os_cmmn.dir/all
 arithmetic/big_integer/tests/Karatsuba_multiplication/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Karatsuba_mltplctn.dir/all: logger/client_logger/CMakeFiles/mp_os_lggr_clnt_lggr.dir/all
@@ -1671,8 +1671,8 @@ arithmetic/big_integer/tests/Karatsuba_multiplication/CMakeFiles/mp_os_arthmtc_b
 
 # All Build rule for target.
 arithmetic/big_integer/tests/Newton_division/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Newton_dvsn.dir/all: allocator/allocator/CMakeFiles/mp_os_allctr_allctr.dir/all
-arithmetic/big_integer/tests/Newton_division/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Newton_dvsn.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 arithmetic/big_integer/tests/Newton_division/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Newton_dvsn.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
+arithmetic/big_integer/tests/Newton_division/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Newton_dvsn.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 arithmetic/big_integer/tests/Newton_division/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Newton_dvsn.dir/all: arithmetic/big_integer/CMakeFiles/mp_os_arthmtc_bg_intgr.dir/all
 arithmetic/big_integer/tests/Newton_division/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Newton_dvsn.dir/all: common/CMakeFiles/mp_os_cmmn.dir/all
 arithmetic/big_integer/tests/Newton_division/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Newton_dvsn.dir/all: logger/client_logger/CMakeFiles/mp_os_lggr_clnt_lggr.dir/all
@@ -1703,8 +1703,8 @@ arithmetic/big_integer/tests/Newton_division/CMakeFiles/mp_os_arthmtc_bg_intgr_t
 
 # All Build rule for target.
 arithmetic/big_integer/tests/Schonhage_Strassen_multiplication/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Schonhage_Strassen_mltplctn.dir/all: allocator/allocator/CMakeFiles/mp_os_allctr_allctr.dir/all
-arithmetic/big_integer/tests/Schonhage_Strassen_multiplication/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Schonhage_Strassen_mltplctn.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 arithmetic/big_integer/tests/Schonhage_Strassen_multiplication/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Schonhage_Strassen_mltplctn.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
+arithmetic/big_integer/tests/Schonhage_Strassen_multiplication/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Schonhage_Strassen_mltplctn.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 arithmetic/big_integer/tests/Schonhage_Strassen_multiplication/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Schonhage_Strassen_mltplctn.dir/all: arithmetic/big_integer/CMakeFiles/mp_os_arthmtc_bg_intgr.dir/all
 arithmetic/big_integer/tests/Schonhage_Strassen_multiplication/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Schonhage_Strassen_mltplctn.dir/all: common/CMakeFiles/mp_os_cmmn.dir/all
 arithmetic/big_integer/tests/Schonhage_Strassen_multiplication/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_Schonhage_Strassen_mltplctn.dir/all: logger/client_logger/CMakeFiles/mp_os_lggr_clnt_lggr.dir/all
@@ -1735,8 +1735,8 @@ arithmetic/big_integer/tests/Schonhage_Strassen_multiplication/CMakeFiles/mp_os_
 
 # All Build rule for target.
 arithmetic/big_integer/tests/trivial_division/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_trvl_dvsn.dir/all: allocator/allocator/CMakeFiles/mp_os_allctr_allctr.dir/all
-arithmetic/big_integer/tests/trivial_division/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_trvl_dvsn.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 arithmetic/big_integer/tests/trivial_division/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_trvl_dvsn.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
+arithmetic/big_integer/tests/trivial_division/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_trvl_dvsn.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 arithmetic/big_integer/tests/trivial_division/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_trvl_dvsn.dir/all: arithmetic/big_integer/CMakeFiles/mp_os_arthmtc_bg_intgr.dir/all
 arithmetic/big_integer/tests/trivial_division/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_trvl_dvsn.dir/all: common/CMakeFiles/mp_os_cmmn.dir/all
 arithmetic/big_integer/tests/trivial_division/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_trvl_dvsn.dir/all: logger/client_logger/CMakeFiles/mp_os_lggr_clnt_lggr.dir/all
@@ -1767,8 +1767,8 @@ arithmetic/big_integer/tests/trivial_division/CMakeFiles/mp_os_arthmtc_bg_intgr_
 
 # All Build rule for target.
 arithmetic/big_integer/tests/trivial_multiplication/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_trvl_mltplctn.dir/all: allocator/allocator/CMakeFiles/mp_os_allctr_allctr.dir/all
-arithmetic/big_integer/tests/trivial_multiplication/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_trvl_mltplctn.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 arithmetic/big_integer/tests/trivial_multiplication/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_trvl_mltplctn.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
+arithmetic/big_integer/tests/trivial_multiplication/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_trvl_mltplctn.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 arithmetic/big_integer/tests/trivial_multiplication/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_trvl_mltplctn.dir/all: arithmetic/big_integer/CMakeFiles/mp_os_arthmtc_bg_intgr.dir/all
 arithmetic/big_integer/tests/trivial_multiplication/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_trvl_mltplctn.dir/all: common/CMakeFiles/mp_os_cmmn.dir/all
 arithmetic/big_integer/tests/trivial_multiplication/CMakeFiles/mp_os_arthmtc_bg_intgr_tests_trvl_mltplctn.dir/all: logger/client_logger/CMakeFiles/mp_os_lggr_clnt_lggr.dir/all
@@ -1911,10 +1911,10 @@ associative_container/hash_table/CMakeFiles/mp_os_assctv_cntnr_hsh_tbl.dir/clean
 
 # All Build rule for target.
 associative_container/hash_table/tests/CMakeFiles/mp_os_assctv_cntnr_hsh_tbl_tests.dir/all: allocator/allocator/CMakeFiles/mp_os_allctr_allctr.dir/all
-associative_container/hash_table/tests/CMakeFiles/mp_os_assctv_cntnr_hsh_tbl_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 associative_container/hash_table/tests/CMakeFiles/mp_os_assctv_cntnr_hsh_tbl_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
-associative_container/hash_table/tests/CMakeFiles/mp_os_assctv_cntnr_hsh_tbl_tests.dir/all: associative_container/CMakeFiles/mp_os_assctv_cntnr.dir/all
+associative_container/hash_table/tests/CMakeFiles/mp_os_assctv_cntnr_hsh_tbl_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 associative_container/hash_table/tests/CMakeFiles/mp_os_assctv_cntnr_hsh_tbl_tests.dir/all: associative_container/hash_table/CMakeFiles/mp_os_assctv_cntnr_hsh_tbl.dir/all
+associative_container/hash_table/tests/CMakeFiles/mp_os_assctv_cntnr_hsh_tbl_tests.dir/all: associative_container/CMakeFiles/mp_os_assctv_cntnr.dir/all
 associative_container/hash_table/tests/CMakeFiles/mp_os_assctv_cntnr_hsh_tbl_tests.dir/all: common/CMakeFiles/mp_os_cmmn.dir/all
 associative_container/hash_table/tests/CMakeFiles/mp_os_assctv_cntnr_hsh_tbl_tests.dir/all: logger/client_logger/CMakeFiles/mp_os_lggr_clnt_lggr.dir/all
 associative_container/hash_table/tests/CMakeFiles/mp_os_assctv_cntnr_hsh_tbl_tests.dir/all: logger/logger/CMakeFiles/mp_os_lggr_lggr.dir/all
@@ -2034,8 +2034,8 @@ associative_container/search_tree/binary_search_tree/AVL_tree/CMakeFiles/mp_os_a
 
 # All Build rule for target.
 associative_container/search_tree/binary_search_tree/AVL_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_AVL_tr_tests.dir/all: allocator/allocator/CMakeFiles/mp_os_allctr_allctr.dir/all
-associative_container/search_tree/binary_search_tree/AVL_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_AVL_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 associative_container/search_tree/binary_search_tree/AVL_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_AVL_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
+associative_container/search_tree/binary_search_tree/AVL_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_AVL_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 associative_container/search_tree/binary_search_tree/AVL_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_AVL_tr_tests.dir/all: associative_container/CMakeFiles/mp_os_assctv_cntnr.dir/all
 associative_container/search_tree/binary_search_tree/AVL_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_AVL_tr_tests.dir/all: associative_container/search_tree/CMakeFiles/mp_os_assctv_cntnr_srch_tr.dir/all
 associative_container/search_tree/binary_search_tree/AVL_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_AVL_tr_tests.dir/all: associative_container/search_tree/binary_search_tree/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr.dir/all
@@ -2100,8 +2100,8 @@ associative_container/search_tree/binary_search_tree/red_black_tree/CMakeFiles/m
 
 # All Build rule for target.
 associative_container/search_tree/binary_search_tree/red_black_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_rb_tr_tests.dir/all: allocator/allocator/CMakeFiles/mp_os_allctr_allctr.dir/all
-associative_container/search_tree/binary_search_tree/red_black_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_rb_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 associative_container/search_tree/binary_search_tree/red_black_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_rb_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
+associative_container/search_tree/binary_search_tree/red_black_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_rb_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 associative_container/search_tree/binary_search_tree/red_black_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_rb_tr_tests.dir/all: allocator/allocator_global_heap/CMakeFiles/mp_os_allctr_allctr_glbl_hp.dir/all
 associative_container/search_tree/binary_search_tree/red_black_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_rb_tr_tests.dir/all: associative_container/CMakeFiles/mp_os_assctv_cntnr.dir/all
 associative_container/search_tree/binary_search_tree/red_black_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_rb_tr_tests.dir/all: associative_container/search_tree/CMakeFiles/mp_os_assctv_cntnr_srch_tr.dir/all
@@ -2167,8 +2167,8 @@ associative_container/search_tree/binary_search_tree/scapegoat_tree/CMakeFiles/m
 
 # All Build rule for target.
 associative_container/search_tree/binary_search_tree/scapegoat_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_scpgt_tr_tests.dir/all: allocator/allocator/CMakeFiles/mp_os_allctr_allctr.dir/all
-associative_container/search_tree/binary_search_tree/scapegoat_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_scpgt_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 associative_container/search_tree/binary_search_tree/scapegoat_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_scpgt_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
+associative_container/search_tree/binary_search_tree/scapegoat_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_scpgt_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 associative_container/search_tree/binary_search_tree/scapegoat_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_scpgt_tr_tests.dir/all: allocator/allocator_global_heap/CMakeFiles/mp_os_allctr_allctr_glbl_hp.dir/all
 associative_container/search_tree/binary_search_tree/scapegoat_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_scpgt_tr_tests.dir/all: associative_container/CMakeFiles/mp_os_assctv_cntnr.dir/all
 associative_container/search_tree/binary_search_tree/scapegoat_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_scpgt_tr_tests.dir/all: associative_container/search_tree/CMakeFiles/mp_os_assctv_cntnr_srch_tr.dir/all
@@ -2234,8 +2234,8 @@ associative_container/search_tree/binary_search_tree/splay_tree/CMakeFiles/mp_os
 
 # All Build rule for target.
 associative_container/search_tree/binary_search_tree/splay_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_spl_tr_tests.dir/all: allocator/allocator/CMakeFiles/mp_os_allctr_allctr.dir/all
-associative_container/search_tree/binary_search_tree/splay_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_spl_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 associative_container/search_tree/binary_search_tree/splay_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_spl_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
+associative_container/search_tree/binary_search_tree/splay_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_spl_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 associative_container/search_tree/binary_search_tree/splay_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_spl_tr_tests.dir/all: allocator/allocator_global_heap/CMakeFiles/mp_os_allctr_allctr_glbl_hp.dir/all
 associative_container/search_tree/binary_search_tree/splay_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_spl_tr_tests.dir/all: associative_container/CMakeFiles/mp_os_assctv_cntnr.dir/all
 associative_container/search_tree/binary_search_tree/splay_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_spl_tr_tests.dir/all: associative_container/search_tree/CMakeFiles/mp_os_assctv_cntnr_srch_tr.dir/all
@@ -2270,8 +2270,8 @@ associative_container/search_tree/binary_search_tree/splay_tree/tests/CMakeFiles
 
 # All Build rule for target.
 associative_container/search_tree/binary_search_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_tests.dir/all: allocator/allocator/CMakeFiles/mp_os_allctr_allctr.dir/all
-associative_container/search_tree/binary_search_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 associative_container/search_tree/binary_search_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
+associative_container/search_tree/binary_search_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 associative_container/search_tree/binary_search_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_tests.dir/all: associative_container/CMakeFiles/mp_os_assctv_cntnr.dir/all
 associative_container/search_tree/binary_search_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_tests.dir/all: associative_container/search_tree/CMakeFiles/mp_os_assctv_cntnr_srch_tr.dir/all
 associative_container/search_tree/binary_search_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr_tests.dir/all: associative_container/search_tree/binary_search_tree/CMakeFiles/mp_os_assctv_cntnr_srch_tr_bnr_srch_tr.dir/all
@@ -2335,8 +2335,8 @@ associative_container/search_tree/indexing_tree/b_plus_tree/CMakeFiles/mp_os_ass
 
 # All Build rule for target.
 associative_container/search_tree/indexing_tree/b_plus_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_pls_tr_tests.dir/all: allocator/allocator/CMakeFiles/mp_os_allctr_allctr.dir/all
-associative_container/search_tree/indexing_tree/b_plus_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_pls_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 associative_container/search_tree/indexing_tree/b_plus_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_pls_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
+associative_container/search_tree/indexing_tree/b_plus_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_pls_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 associative_container/search_tree/indexing_tree/b_plus_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_pls_tr_tests.dir/all: associative_container/CMakeFiles/mp_os_assctv_cntnr.dir/all
 associative_container/search_tree/indexing_tree/b_plus_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_pls_tr_tests.dir/all: associative_container/search_tree/CMakeFiles/mp_os_assctv_cntnr_srch_tr.dir/all
 associative_container/search_tree/indexing_tree/b_plus_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_pls_tr_tests.dir/all: associative_container/search_tree/indexing_tree/b_plus_tree/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_pls_tr.dir/all
@@ -2400,8 +2400,8 @@ associative_container/search_tree/indexing_tree/b_star_plus_tree/CMakeFiles/mp_o
 
 # All Build rule for target.
 associative_container/search_tree/indexing_tree/b_star_plus_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_str_pls_tr_tests.dir/all: allocator/allocator/CMakeFiles/mp_os_allctr_allctr.dir/all
-associative_container/search_tree/indexing_tree/b_star_plus_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_str_pls_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 associative_container/search_tree/indexing_tree/b_star_plus_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_str_pls_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
+associative_container/search_tree/indexing_tree/b_star_plus_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_str_pls_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 associative_container/search_tree/indexing_tree/b_star_plus_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_str_pls_tr_tests.dir/all: associative_container/CMakeFiles/mp_os_assctv_cntnr.dir/all
 associative_container/search_tree/indexing_tree/b_star_plus_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_str_pls_tr_tests.dir/all: associative_container/search_tree/CMakeFiles/mp_os_assctv_cntnr_srch_tr.dir/all
 associative_container/search_tree/indexing_tree/b_star_plus_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_str_pls_tr_tests.dir/all: associative_container/search_tree/indexing_tree/b_star_plus_tree/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_str_pls_tr.dir/all
@@ -2465,8 +2465,8 @@ associative_container/search_tree/indexing_tree/b_star_tree/CMakeFiles/mp_os_ass
 
 # All Build rule for target.
 associative_container/search_tree/indexing_tree/b_star_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_str_tr_tests.dir/all: allocator/allocator/CMakeFiles/mp_os_allctr_allctr.dir/all
-associative_container/search_tree/indexing_tree/b_star_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_str_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 associative_container/search_tree/indexing_tree/b_star_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_str_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
+associative_container/search_tree/indexing_tree/b_star_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_str_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 associative_container/search_tree/indexing_tree/b_star_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_str_tr_tests.dir/all: associative_container/CMakeFiles/mp_os_assctv_cntnr.dir/all
 associative_container/search_tree/indexing_tree/b_star_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_str_tr_tests.dir/all: associative_container/search_tree/CMakeFiles/mp_os_assctv_cntnr_srch_tr.dir/all
 associative_container/search_tree/indexing_tree/b_star_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_str_tr_tests.dir/all: associative_container/search_tree/indexing_tree/b_star_tree/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_str_tr.dir/all
@@ -2530,12 +2530,12 @@ associative_container/search_tree/indexing_tree/b_tree/CMakeFiles/mp_os_assctv_c
 
 # All Build rule for target.
 associative_container/search_tree/indexing_tree/b_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_tr_tests.dir/all: allocator/allocator/CMakeFiles/mp_os_allctr_allctr.dir/all
-associative_container/search_tree/indexing_tree/b_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 associative_container/search_tree/indexing_tree/b_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
+associative_container/search_tree/indexing_tree/b_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_tr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 associative_container/search_tree/indexing_tree/b_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_tr_tests.dir/all: associative_container/CMakeFiles/mp_os_assctv_cntnr.dir/all
 associative_container/search_tree/indexing_tree/b_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_tr_tests.dir/all: associative_container/search_tree/CMakeFiles/mp_os_assctv_cntnr_srch_tr.dir/all
-associative_container/search_tree/indexing_tree/b_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_tr_tests.dir/all: associative_container/search_tree/indexing_tree/b_tree/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_tr.dir/all
 associative_container/search_tree/indexing_tree/b_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_tr_tests.dir/all: common/CMakeFiles/mp_os_cmmn.dir/all
+associative_container/search_tree/indexing_tree/b_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_tr_tests.dir/all: associative_container/search_tree/indexing_tree/b_tree/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_tr.dir/all
 associative_container/search_tree/indexing_tree/b_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_tr_tests.dir/all: logger/client_logger/CMakeFiles/mp_os_lggr_clnt_lggr.dir/all
 associative_container/search_tree/indexing_tree/b_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_tr_tests.dir/all: logger/logger/CMakeFiles/mp_os_lggr_lggr.dir/all
 	$(MAKE) $(MAKESILENT) -f associative_container\search_tree\indexing_tree\b_tree\tests\CMakeFiles\mp_os_assctv_cntnr_srch_tr_indxng_tr_b_tr_tests.dir\build.make associative_container/search_tree/indexing_tree/b_tree/tests/CMakeFiles/mp_os_assctv_cntnr_srch_tr_indxng_tr_b_tr_tests.dir/depend
@@ -2616,8 +2616,8 @@ logger/client_logger/CMakeFiles/mp_os_lggr_clnt_lggr.dir/clean:
 # Target rules for target logger/client_logger/tests/CMakeFiles/mp_os_lggr_clnt_lggr_tests.dir
 
 # All Build rule for target.
-logger/client_logger/tests/CMakeFiles/mp_os_lggr_clnt_lggr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 logger/client_logger/tests/CMakeFiles/mp_os_lggr_clnt_lggr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
+logger/client_logger/tests/CMakeFiles/mp_os_lggr_clnt_lggr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 logger/client_logger/tests/CMakeFiles/mp_os_lggr_clnt_lggr_tests.dir/all: common/CMakeFiles/mp_os_cmmn.dir/all
 logger/client_logger/tests/CMakeFiles/mp_os_lggr_clnt_lggr_tests.dir/all: logger/client_logger/CMakeFiles/mp_os_lggr_clnt_lggr.dir/all
 logger/client_logger/tests/CMakeFiles/mp_os_lggr_clnt_lggr_tests.dir/all: logger/logger/CMakeFiles/mp_os_lggr_lggr.dir/all
@@ -2699,11 +2699,11 @@ logger/server_logger/CMakeFiles/mp_os_lggr_srvr_lggr.dir/clean:
 # Target rules for target logger/server_logger/tests/CMakeFiles/mp_os_lggr_srvr_lggr_tests.dir
 
 # All Build rule for target.
-logger/server_logger/tests/CMakeFiles/mp_os_lggr_srvr_lggr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 logger/server_logger/tests/CMakeFiles/mp_os_lggr_srvr_lggr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
+logger/server_logger/tests/CMakeFiles/mp_os_lggr_srvr_lggr_tests.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 logger/server_logger/tests/CMakeFiles/mp_os_lggr_srvr_lggr_tests.dir/all: common/CMakeFiles/mp_os_cmmn.dir/all
-logger/server_logger/tests/CMakeFiles/mp_os_lggr_srvr_lggr_tests.dir/all: logger/server_logger/CMakeFiles/mp_os_lggr_srvr_lggr.dir/all
 logger/server_logger/tests/CMakeFiles/mp_os_lggr_srvr_lggr_tests.dir/all: logger/logger/CMakeFiles/mp_os_lggr_lggr.dir/all
+logger/server_logger/tests/CMakeFiles/mp_os_lggr_srvr_lggr_tests.dir/all: logger/server_logger/CMakeFiles/mp_os_lggr_srvr_lggr.dir/all
 	$(MAKE) $(MAKESILENT) -f logger\server_logger\tests\CMakeFiles\mp_os_lggr_srvr_lggr_tests.dir\build.make logger/server_logger/tests/CMakeFiles/mp_os_lggr_srvr_lggr_tests.dir/depend
 	$(MAKE) $(MAKESILENT) -f logger\server_logger\tests\CMakeFiles\mp_os_lggr_srvr_lggr_tests.dir\build.make logger/server_logger/tests/CMakeFiles/mp_os_lggr_srvr_lggr_tests.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\artio\projectsvscode\mp_os\build\CMakeFiles --progress-num=99,100 "Built target mp_os_lggr_srvr_lggr_tests"

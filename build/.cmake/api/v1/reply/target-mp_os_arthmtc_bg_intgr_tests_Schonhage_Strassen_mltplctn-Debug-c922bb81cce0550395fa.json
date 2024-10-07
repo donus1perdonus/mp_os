@@ -2,10 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "arithmetic/big_integer/tests/trivial_division/mp_os_arthmtc_bg_intgr_tests_trvl_dvsn.exe"
+			"path" : "arithmetic/big_integer/tests/Schonhage_Strassen_multiplication/mp_os_arthmtc_bg_intgr_tests_Schonhage_Strassen_mltplctn.exe"
 		},
 		{
-			"path" : "arithmetic/big_integer/tests/trivial_division/mp_os_arthmtc_bg_intgr_tests_trvl_dvsn.pdb"
+			"path" : "arithmetic/big_integer/tests/Schonhage_Strassen_multiplication/mp_os_arthmtc_bg_intgr_tests_Schonhage_Strassen_mltplctn.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -18,7 +18,7 @@
 		],
 		"files" : 
 		[
-			"arithmetic/big_integer/tests/trivial_division/CMakeLists.txt",
+			"arithmetic/big_integer/tests/Schonhage_Strassen_multiplication/CMakeLists.txt",
 			"build/_deps/googletest-src/googletest/CMakeLists.txt",
 			"logger/client_logger/CMakeLists.txt",
 			"arithmetic/big_integer/CMakeLists.txt"
@@ -157,11 +157,11 @@
 		},
 		{
 			"backtrace" : 2,
-			"id" : "gtest_main::@1ea2dfc0605fe3ab2a3f"
+			"id" : "gtest::@1ea2dfc0605fe3ab2a3f"
 		},
 		{
 			"backtrace" : 2,
-			"id" : "gtest::@1ea2dfc0605fe3ab2a3f"
+			"id" : "gtest_main::@1ea2dfc0605fe3ab2a3f"
 		},
 		{
 			"backtrace" : 5,
@@ -180,7 +180,7 @@
 			"id" : "mp_os_lggr_lggr::@af94273c3084cfb43adb"
 		}
 	],
-	"id" : "mp_os_arthmtc_bg_intgr_tests_trvl_dvsn::@cab2258a26995a1ffc62",
+	"id" : "mp_os_arthmtc_bg_intgr_tests_Schonhage_Strassen_mltplctn::@5cf207ca7c64b593d30a",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -240,12 +240,12 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "mp_os_arthmtc_bg_intgr_tests_trvl_dvsn",
-	"nameOnDisk" : "mp_os_arthmtc_bg_intgr_tests_trvl_dvsn.exe",
+	"name" : "mp_os_arthmtc_bg_intgr_tests_Schonhage_Strassen_mltplctn",
+	"nameOnDisk" : "mp_os_arthmtc_bg_intgr_tests_Schonhage_Strassen_mltplctn.exe",
 	"paths" : 
 	{
-		"build" : "arithmetic/big_integer/tests/trivial_division",
-		"source" : "arithmetic/big_integer/tests/trivial_division"
+		"build" : "arithmetic/big_integer/tests/Schonhage_Strassen_multiplication",
+		"source" : "arithmetic/big_integer/tests/Schonhage_Strassen_multiplication"
 	},
 	"sourceGroups" : 
 	[
@@ -262,7 +262,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "arithmetic/big_integer/tests/trivial_division/trivial_division_tests.cpp",
+			"path" : "arithmetic/big_integer/tests/Schonhage_Strassen_multiplication/Schonhage_Strassen_multiplication_tests.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

@@ -2,10 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "allocator/allocator_sorted_list/tests/mp_os_allctr_allctr_srtd_lst_tests.exe"
+			"path" : "arithmetic/big_integer/tests/trivial_multiplication/mp_os_arthmtc_bg_intgr_tests_trvl_mltplctn.exe"
 		},
 		{
-			"path" : "allocator/allocator_sorted_list/tests/mp_os_allctr_allctr_srtd_lst_tests.pdb"
+			"path" : "arithmetic/big_integer/tests/trivial_multiplication/mp_os_arthmtc_bg_intgr_tests_trvl_mltplctn.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -18,9 +18,10 @@
 		],
 		"files" : 
 		[
-			"allocator/allocator_sorted_list/tests/CMakeLists.txt",
+			"arithmetic/big_integer/tests/trivial_multiplication/CMakeLists.txt",
 			"build/_deps/googletest-src/googletest/CMakeLists.txt",
-			"logger/client_logger/CMakeLists.txt"
+			"logger/client_logger/CMakeLists.txt",
+			"arithmetic/big_integer/CMakeLists.txt"
 		],
 		"nodes" : 
 		[
@@ -58,19 +59,13 @@
 				"parent" : 0
 			},
 			{
-				"command" : 1,
-				"file" : 0,
-				"line" : 34,
-				"parent" : 0
-			},
-			{
 				"file" : 1
 			},
 			{
 				"command" : 1,
 				"file" : 1,
 				"line" : 161,
-				"parent" : 7
+				"parent" : 6
 			},
 			{
 				"file" : 2
@@ -79,7 +74,16 @@
 				"command" : 1,
 				"file" : 2,
 				"line" : 21,
-				"parent" : 9
+				"parent" : 8
+			},
+			{
+				"file" : 3
+			},
+			{
+				"command" : 1,
+				"file" : 3,
+				"line" : 17,
+				"parent" : 10
 			}
 		]
 	},
@@ -112,11 +116,11 @@
 				},
 				{
 					"backtrace" : 5,
-					"path" : "C:/Users/artio/projectsvscode/mp_os/allocator/allocator/./include"
+					"path" : "C:/Users/artio/projectsvscode/mp_os/arithmetic/big_integer/./include"
 				},
 				{
-					"backtrace" : 6,
-					"path" : "C:/Users/artio/projectsvscode/mp_os/allocator/allocator_sorted_list/./include"
+					"backtrace" : 5,
+					"path" : "C:/Users/artio/projectsvscode/mp_os/allocator/allocator/./include"
 				},
 				{
 					"backtrace" : 2,
@@ -153,15 +157,15 @@
 		},
 		{
 			"backtrace" : 2,
-			"id" : "gtest_main::@1ea2dfc0605fe3ab2a3f"
-		},
-		{
-			"backtrace" : 2,
 			"id" : "gtest::@1ea2dfc0605fe3ab2a3f"
 		},
 		{
-			"backtrace" : 6,
-			"id" : "mp_os_allctr_allctr_srtd_lst::@4702340b8f18f13d4df3"
+			"backtrace" : 2,
+			"id" : "gtest_main::@1ea2dfc0605fe3ab2a3f"
+		},
+		{
+			"backtrace" : 5,
+			"id" : "mp_os_arthmtc_bg_intgr::@ef276916ed2ac9027e60"
 		},
 		{
 			"backtrace" : 3,
@@ -176,7 +180,7 @@
 			"id" : "mp_os_lggr_lggr::@af94273c3084cfb43adb"
 		}
 	],
-	"id" : "mp_os_allctr_allctr_srtd_lst_tests::@9768f5af66b947045b7a",
+	"id" : "mp_os_arthmtc_bg_intgr_tests_trvl_mltplctn::@8543726f27bb0eef5fc4",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -191,47 +195,42 @@
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "..\\..\\..\\lib\\libgtest_main.a",
+				"fragment" : "..\\..\\..\\..\\lib\\libgtest_main.a",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 3,
-				"fragment" : "..\\..\\..\\common\\libmp_os_cmmn.a",
+				"fragment" : "..\\..\\..\\..\\common\\libmp_os_cmmn.a",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 4,
-				"fragment" : "..\\..\\..\\logger\\client_logger\\libmp_os_lggr_clnt_lggr.a",
+				"fragment" : "..\\..\\..\\..\\logger\\client_logger\\libmp_os_lggr_clnt_lggr.a",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 5,
-				"fragment" : "..\\..\\allocator\\libmp_os_allctr_allctr.a",
+				"fragment" : "..\\..\\libmp_os_arthmtc_bg_intgr.a",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 6,
-				"fragment" : "..\\libmp_os_allctr_allctr_srtd_lst.a",
+				"backtrace" : 7,
+				"fragment" : "..\\..\\..\\..\\lib\\libgtest.a",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 8,
-				"fragment" : "..\\..\\..\\lib\\libgtest.a",
+				"backtrace" : 9,
+				"fragment" : "..\\..\\..\\..\\logger\\logger\\libmp_os_lggr_lggr.a",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 3,
-				"fragment" : "..\\..\\..\\common\\libmp_os_cmmn.a",
+				"fragment" : "..\\..\\..\\..\\common\\libmp_os_cmmn.a",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 5,
-				"fragment" : "..\\..\\allocator\\libmp_os_allctr_allctr.a",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 10,
-				"fragment" : "..\\..\\..\\logger\\logger\\libmp_os_lggr_lggr.a",
+				"backtrace" : 11,
+				"fragment" : "..\\..\\..\\..\\allocator\\allocator\\libmp_os_allctr_allctr.a",
 				"role" : "libraries"
 			},
 			{
@@ -241,12 +240,12 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "mp_os_allctr_allctr_srtd_lst_tests",
-	"nameOnDisk" : "mp_os_allctr_allctr_srtd_lst_tests.exe",
+	"name" : "mp_os_arthmtc_bg_intgr_tests_trvl_mltplctn",
+	"nameOnDisk" : "mp_os_arthmtc_bg_intgr_tests_trvl_mltplctn.exe",
 	"paths" : 
 	{
-		"build" : "allocator/allocator_sorted_list/tests",
-		"source" : "allocator/allocator_sorted_list/tests"
+		"build" : "arithmetic/big_integer/tests/trivial_multiplication",
+		"source" : "arithmetic/big_integer/tests/trivial_multiplication"
 	},
 	"sourceGroups" : 
 	[
@@ -263,7 +262,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "allocator/allocator_sorted_list/tests/allocator_sorted_list_tests.cpp",
+			"path" : "arithmetic/big_integer/tests/trivial_multiplication/trivial_multiplication_tests.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

@@ -26,7 +26,7 @@
             }
         },
         {
-            "name": "Run Allocator Global Heap",
+            "name": "Run Allocator Global Heap Tests",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/allocator/allocator_global_heap/tests/mp_os_allctr_allctr_glbl_hp_tests",
