@@ -1,6 +1,6 @@
-07.10.2024 17:15:37 DEBUG [allocator_global_heap] allocator_global_heap::allocator_global_heap(logger *logger)
-07.10.2024 17:15:37 DEBUG [allocator_global_heap] [[nodiscard]] void *allocator_global_heap::allocate()
-07.10.2024 17:15:37 DEBUG [allocator_global_heap] Memory allocated succesfully
-07.10.2024 17:15:37 DEBUG [allocator_global_heap] void allocator_global_heap::deallocate()
-07.10.2024 17:15:37 DEBUG [allocator_global_heap] Deallocate succesfully
-07.10.2024 17:15:37 DEBUG [allocator_global_heap] allocator_global_heap::~allocator_global_heap()
+08.10.2024 16:30:51 DEBUG [allocator_global_heap] allocator_global_heap::allocator_global_heap(logger *logger)
+08.10.2024 16:30:51 DEBUG [allocator_global_heap] [[nodiscard]] void *allocator_global_heap::allocate()
+08.10.2024 16:30:51 DEBUG [allocator_global_heap] Memory allocated succesfully
+08.10.2024 16:30:51 DEBUG [allocator_global_heap] void allocator_global_heap::deallocate()
+08.10.2024 16:30:51 DEBUG [allocator_global_heap] Deallocate succesfully
+08.10.2024 16:30:51 DEBUG [allocator_global_heap] allocator_global_heap::~allocator_global_heap()

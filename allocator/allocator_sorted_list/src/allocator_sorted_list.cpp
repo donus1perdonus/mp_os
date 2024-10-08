@@ -76,5 +76,5 @@ inline logger *allocator_sorted_list::get_logger() const
 
 inline std::string allocator_sorted_list::get_typename() const noexcept
 {
-    throw not_implemented("inline std::string allocator_sorted_list::get_typename() const noexcept", "your code should be here...");
+    return "[allocator_sorted_list]";
 }

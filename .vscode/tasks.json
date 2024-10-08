@@ -37,7 +37,7 @@
             "command": "cmake",
             "args": [
                 "-B",
-                "${workspaceFolder}/build/logger/client_logger/tests",
+                "${workspaceFolder}/build/allocator/allocator_global_heap/tests",
                 "-S",
                 "${workspaceFolder}/allocator/allocator_global_heap/tests"
             ],
@@ -54,6 +54,36 @@
             "args": [
                 "--build",
                 "${workspaceFolder}/build/allocator/allocator_global_heap/tests"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"]
+        },
+        {
+            "label": "build alc_srtd_lst",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "-B",
+                "${workspaceFolder}/build/allocator/allocator_sorted_list/tests",
+                "-S",
+                "${workspaceFolder}/allocator/allocator_sorted_list/tests"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"]
+        },
+        {
+            "label": "build and run alc_srtd_lst",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "${workspaceFolder}/build/allocator/allocator_sorted_list/tests"
             ],
             "group": {
                 "kind": "build",
