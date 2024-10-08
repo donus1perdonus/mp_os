@@ -52,8 +52,6 @@ private:
     
     inline std::string get_typename() const noexcept override;
 
-public:
-
 };
 
 #endif //MATH_PRACTICE_AND_OPERATING_SYSTEMS_ALLOCATOR_ALLOCATOR_GLOBAL_HEAP_H
