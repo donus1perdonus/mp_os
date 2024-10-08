@@ -21,13 +21,13 @@ int main()
 
     delete b2;
 
-    l1->log("hui", logger::severity::trace);
+    l1->log("test1", logger::severity::trace);
 
-    l2->log("hui", logger::severity::debug);
+    l2->log("test2", logger::severity::debug);
 
     delete l1;
 
-    l2->log("hui", logger::severity::information);
+    l2->log("test3", logger::severity::information);
 
     delete l2;
 
