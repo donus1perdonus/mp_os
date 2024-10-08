@@ -1,2 +1,0 @@
-C:\msys64\ucrt64\bin\ar.exe qc liblgr.a CMakeFiles/lgr.dir/src/logger.cpp.obj CMakeFiles/lgr.dir/src/logger_builder.cpp.obj CMakeFiles/lgr.dir/src/logger_guardant.cpp.obj
-C:\msys64\ucrt64\bin\ranlib.exe liblgr.a

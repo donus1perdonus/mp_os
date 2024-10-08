@@ -1,2 +1,0 @@
-C:\msys64\ucrt64\bin\ar.exe qc libclient_logger.a CMakeFiles/client_logger.dir/src/client_logger_builder.cpp.obj CMakeFiles/client_logger.dir/src/client_logger.cpp.obj
-C:\msys64\ucrt64\bin\ranlib.exe libclient_logger.a
