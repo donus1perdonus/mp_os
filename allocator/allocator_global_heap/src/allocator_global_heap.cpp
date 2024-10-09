@@ -4,16 +4,14 @@ allocator_global_heap::allocator_global_heap(
     logger *logger) 
     : _logger(logger)
 {
-    log_with_guard(get_typename() + 
-        " allocator_global_heap::allocator_global_heap(logger *logger)",
-        logger::severity::debug);
+    debug_with_guard(get_typename() + 
+        " allocator_global_heap::allocator_global_heap(logger *logger)");
 }
 
 allocator_global_heap::~allocator_global_heap()
 {
-    log_with_guard(get_typename() + 
-        " allocator_global_heap::~allocator_global_heap()",
-        logger::severity::debug);
+    debug_with_guard(get_typename() + 
+        " allocator_global_heap::~allocator_global_heap()");
 
     delete _logger;
 }
@@ -22,9 +20,8 @@ allocator_global_heap::allocator_global_heap(
     allocator_global_heap &&other) noexcept
     : _logger(std::move(other._logger))
 {
-    log_with_guard(get_typename() + 
-        " allocator_global_heap::allocator_global_heap(allocator_global_heap &&other) noexcept",
-        logger::severity::debug);
+    debug_with_guard(get_typename() + 
+        " allocator_global_heap::allocator_global_heap(allocator_global_heap &&other) noexcept");
 
     other._logger = nullptr;
 }
@@ -32,9 +29,8 @@ allocator_global_heap::allocator_global_heap(
 allocator_global_heap &allocator_global_heap::operator=(
     allocator_global_heap &&other) noexcept
 {
-    log_with_guard(get_typename() + 
-        " allocator_global_heap &allocator_global_heap::operator=(allocator_global_heap &&other) noexcept",
-        logger::severity::debug);
+    debug_with_guard(get_typename() + 
+        " allocator_global_heap &allocator_global_heap::operator=(allocator_global_heap &&other) noexcept");
 
     if (this != &other)
     {
@@ -49,9 +45,8 @@ allocator_global_heap &allocator_global_heap::operator=(
     size_t value_size,
     size_t values_count)
 {
-    log_with_guard(get_typename() + 
-        " [[nodiscard]] void *allocator_global_heap::allocate()",
-        logger::severity::debug);
+    debug_with_guard(get_typename() + 
+        " [[nodiscard]] void *allocator_global_heap::allocate()");
 
     void* memory = nullptr;
 
@@ -59,15 +54,13 @@ allocator_global_heap &allocator_global_heap::operator=(
     {
         memory = ::operator new(value_size * values_count);
         
-        log_with_guard(get_typename() + 
-            " Memory allocated succesfully", 
-            logger::severity::debug);
+        debug_with_guard(get_typename() + 
+            " Memory allocated succesfully");
     
     } catch (const std::bad_alloc& e) {
         
-        log_with_guard(get_typename() + 
-            " Memory allocate error",
-            logger::severity::debug);
+        debug_with_guard(get_typename() + 
+            " Memory allocate error");
         
         throw;
     }
@@ -78,22 +71,19 @@ allocator_global_heap &allocator_global_heap::operator=(
 void allocator_global_heap::deallocate(
     void *at)
 {
-    log_with_guard(get_typename() + 
-        " void allocator_global_heap::deallocate()",
-        logger::severity::debug);
+    debug_with_guard(get_typename() + 
+        " void allocator_global_heap::deallocate()");
 
     if (at == nullptr) 
     {
-        log_with_guard(get_typename() + 
-            "Attempt to deallocate null pointer",
-            logger::severity::debug);
+        error_with_guard(get_typename() + 
+            "Attempt to deallocate null pointer");
 
         throw std::logic_error("Attempt to deallocate null pointer");
     }
     
-    log_with_guard(get_typename() + 
-        " Deallocate succesfully", 
-        logger::severity::debug);
+    debug_with_guard(get_typename() + 
+        " Deallocate succesfully");
 
     ::operator delete(at);
 }

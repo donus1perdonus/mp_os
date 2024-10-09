@@ -6,6 +6,7 @@
 #include <allocator_with_fit_mode.h>
 #include <logger_guardant.h>
 #include <typename_holder.h>
+#include <mutex>
 
 class allocator_sorted_list final:
     private allocator_guardant,
@@ -21,7 +22,7 @@ private:
 
 public:
     
-    ~allocator_sorted_list() override;
+    ~allocator_sorted_list() noexcept override;
     
     allocator_sorted_list(
         allocator_sorted_list const &other);
@@ -73,7 +74,16 @@ private:
 private:
     
     inline std::string get_typename() const noexcept override;
+
+private:
+
+    static size_t constexpr summ_size();
+
+    static size_t constexpr available_block_metadata_size();
+
+    static size_t constexpr ancillary_block_metadata_size();
     
+    std::mutex& obtain_synchronizer() const;
 };
 
 #endif //MATH_PRACTICE_AND_OPERATING_SYSTEMS_ALLOCATOR_ALLOCATOR_SORTED_LIST_H
