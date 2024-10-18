@@ -25,12 +25,6 @@ public:
     ~allocator_sorted_list() noexcept override;
     
     allocator_sorted_list(
-        allocator_sorted_list const &other);
-    
-    allocator_sorted_list &operator=(
-        allocator_sorted_list const &other);
-    
-    allocator_sorted_list(
         allocator_sorted_list &&other) noexcept;
     
     allocator_sorted_list &operator=(
@@ -59,10 +53,6 @@ public:
     inline void set_fit_mode(
         allocator_with_fit_mode::fit_mode mode) override;
 
-private:
-    
-    inline allocator *get_allocator() const override;
-
 public:
     
     std::vector<allocator_test_utils::block_info> get_blocks_info() const noexcept override;
@@ -71,7 +61,7 @@ private:
     
     inline logger *get_logger() const override;
 
-private:
+    inline allocator *get_allocator() const override;
     
     inline std::string get_typename() const noexcept override;
 
@@ -83,7 +73,7 @@ private:
 
     static size_t constexpr ancillary_block_metadata_size();
     
-    std::mutex& obtain_synchronizer() const;
+    std::mutex& get_mutex() const;
 };
 
 #endif //MATH_PRACTICE_AND_OPERATING_SYSTEMS_ALLOCATOR_ALLOCATOR_SORTED_LIST_H

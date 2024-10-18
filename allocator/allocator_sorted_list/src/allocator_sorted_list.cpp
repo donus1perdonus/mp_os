@@ -12,7 +12,7 @@ allocator_sorted_list::~allocator_sorted_list() noexcept
         return;
     }
 
-    allocator::destruct(&obtain_synchronizer());
+    allocator::destruct(&get_mutex());
 
     debug_with_guard("...");
 
@@ -20,24 +20,13 @@ allocator_sorted_list::~allocator_sorted_list() noexcept
 }
 
 allocator_sorted_list::allocator_sorted_list(
-    allocator_sorted_list const &other)
-{
-    debug_with_guard(get_typename() + 
-    " allocator_sorted_list::allocator_sorted_list(allocator_sorted_list const &)");
-}
-
-allocator_sorted_list &allocator_sorted_list::operator=(
-    allocator_sorted_list const &other)
-{
-    debug_with_guard(get_typename() + 
-    " allocator_sorted_list &allocator_sorted_list::operator=(allocator_sorted_list const &)");
-}
-
-allocator_sorted_list::allocator_sorted_list(
     allocator_sorted_list &&other) noexcept
+    : _trusted_memory(other._trusted_memory)
 {
     debug_with_guard(get_typename() + 
     " allocator_sorted_list::allocator_sorted_list(allocator_sorted_list &&) noexcept");
+
+    other._trusted_memory = nullptr;
 }
 
 allocator_sorted_list &allocator_sorted_list::operator=(
@@ -45,6 +34,17 @@ allocator_sorted_list &allocator_sorted_list::operator=(
 {
     debug_with_guard(get_typename() + 
     " allocator_sorted_list &allocator_sorted_list::operator=(allocator_sorted_list &&) noexcept");
+
+    if (this != &other)
+    {
+        deallocate_with_guard(_trusted_memory);
+
+        _trusted_memory = other._trusted_memory;
+
+        other._trusted_memory = nullptr;
+    }
+
+    return *this;
 }
 
 allocator_sorted_list::allocator_sorted_list(
@@ -147,7 +147,7 @@ inline logger *allocator_sorted_list::get_logger() const
     debug_with_guard(get_typename() + 
     " inline logger *allocator_sorted_list::get_logger() const");
 
-    return *(reinterpret_cast<logger **>(&obtain_synchronizer()) - 1);
+    return *(reinterpret_cast<logger **>(&get_mutex()) - 1);
 }
 
 inline std::string allocator_sorted_list::get_typename() const noexcept
@@ -170,10 +170,9 @@ size_t constexpr allocator_sorted_list::ancillary_block_metadata_size()
     return sizeof(size_t) + sizeof(void *);
 }
 
-std::mutex& allocator_sorted_list::obtain_synchronizer() const
+std::mutex& allocator_sorted_list::get_mutex() const
 {
     return *reinterpret_cast<std::mutex*>
         (reinterpret_cast<unsigned char*>
-        (_trusted_memory) +
-        sizeof(allocator *) + sizeof(logger *));
+        (_trusted_memory) + sizeof(allocator *) + sizeof(logger *));
 }
