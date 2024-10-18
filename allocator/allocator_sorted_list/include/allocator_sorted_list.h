@@ -25,12 +25,6 @@ public:
     ~allocator_sorted_list() noexcept override;
     
     allocator_sorted_list(
-        allocator_sorted_list const &other);
-    
-    allocator_sorted_list &operator=(
-        allocator_sorted_list const &other);
-    
-    allocator_sorted_list(
         allocator_sorted_list &&other) noexcept;
     
     allocator_sorted_list &operator=(
@@ -83,7 +77,17 @@ private:
 
     static size_t constexpr ancillary_block_metadata_size();
     
-    std::mutex& obtain_synchronizer() const;
+    std::mutex& get_mutex() const;
+
+    void *& get_first_available_block_address() const;
+
+    static void *& get_next_available_block_address(
+        void *current_avaliable_block_adress);
+
+    static size_t & get_available_block_size(
+        void *current_available_block_address);
+
+    allocator_with_fit_mode::fit_mode &get_fit_mode() const;
 };
 
 #endif //MATH_PRACTICE_AND_OPERATING_SYSTEMS_ALLOCATOR_ALLOCATOR_SORTED_LIST_H
