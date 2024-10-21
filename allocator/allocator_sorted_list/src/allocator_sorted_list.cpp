@@ -22,9 +22,12 @@ allocator_sorted_list::~allocator_sorted_list() noexcept
 
 allocator_sorted_list::allocator_sorted_list(
     allocator_sorted_list &&other) noexcept
+    : _trusted_memory(other._trusted_memory)
 {
     debug_with_guard(get_typename() + 
     " allocator_sorted_list::allocator_sorted_list(allocator_sorted_list &&) noexcept");
+
+    other._trusted_memory = nullptr;
 }
 
 allocator_sorted_list &allocator_sorted_list::operator=(
@@ -32,6 +35,17 @@ allocator_sorted_list &allocator_sorted_list::operator=(
 {
     debug_with_guard(get_typename() + 
     " allocator_sorted_list &allocator_sorted_list::operator=(allocator_sorted_list &&) noexcept");
+
+    if (this != &other)
+    {
+        deallocate_with_guard(_trusted_memory);
+
+        _trusted_memory = other._trusted_memory;
+
+        other._trusted_memory = nullptr;
+    }
+
+    return *this;
 }
 
 allocator_sorted_list::allocator_sorted_list(
