@@ -5,13 +5,13 @@
 
 allocator_sorted_list::~allocator_sorted_list() noexcept
 {
-    debug_with_guard(get_typename() + 
-    " allocator_sorted_list::~allocator_sorted_list()");
-
     if (_trusted_memory == nullptr)
     {
         return;
     }
+
+    debug_with_guard(get_typename() + 
+    " allocator_sorted_list::~allocator_sorted_list()");
 
     allocator::destruct(&get_mutex());
 
@@ -57,6 +57,8 @@ allocator_sorted_list::allocator_sorted_list(
     
     if (space_size < available_block_metadata_size())
     {
+        error_with_guard(get_typename() + " Can not allocate memory size < 0");
+
         throw std::logic_error("Can not allocate memory size < 0");
     }
 
@@ -197,9 +199,6 @@ std::vector<allocator_test_utils::block_info> allocator_sorted_list::get_blocks_
 
 inline logger *allocator_sorted_list::get_logger() const
 {
-    debug_with_guard(get_typename() + 
-    " inline logger *allocator_sorted_list::get_logger() const");
-
     return *(reinterpret_cast<logger **>(&get_mutex()) - 1);
 }
 
