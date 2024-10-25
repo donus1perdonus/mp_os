@@ -1,4 +1,4 @@
-21.10.2024 00:48:06 DEBUG [allocator_sorted_list] allocator_sorted_list::allocator_sorted_list(size_t, allocator *, logger *, allocator_with_fit_mode::fit_mode)
-21.10.2024 00:48:06 DEBUG [allocator_sorted_list] [[nodiscard]] void *allocator_sorted_list::allocate(size_t, size_t)
-21.10.2024 00:48:06 DEBUG [allocator_sorted_list] [[nodiscard]] void *allocator_sorted_list::allocate(size_t, size_t)
-21.10.2024 00:48:06 DEBUG [allocator_sorted_list] [[nodiscard]] void *allocator_sorted_list::allocate(size_t, size_t)
+22.10.2024 20:58:42 DEBUG [allocator_sorted_list] allocator_sorted_list::allocator_sorted_list(size_t, allocator *, logger *, allocator_with_fit_mode::fit_mode)
+22.10.2024 20:58:42 DEBUG [allocator_sorted_list] [[nodiscard]] void *allocator_sorted_list::allocate(size_t, size_t)
+22.10.2024 20:58:42 DEBUG [allocator_sorted_list] [[nodiscard]] void *allocator_sorted_list::allocate(size_t, size_t)
+22.10.2024 20:58:42 DEBUG [allocator_sorted_list] [[nodiscard]] void *allocator_sorted_list::allocate(size_t, size_t)
