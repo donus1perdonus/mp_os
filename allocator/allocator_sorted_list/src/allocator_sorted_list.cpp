@@ -79,7 +79,7 @@ allocator_sorted_list::allocator_sorted_list(
 
         throw;
     }
-
+    
     allocator **parent_allocator_placement = reinterpret_cast<allocator **>(_trusted_memory);
     *parent_allocator_placement = parent_allocator;
 
@@ -91,17 +91,16 @@ allocator_sorted_list::allocator_sorted_list(
 
     unsigned char *placement = reinterpret_cast<unsigned char *>
         (synchronizer_placement);
-
     placement += sizeof(std::mutex);
+
     *reinterpret_cast<allocator_with_fit_mode::fit_mode *>(placement) =
         allocate_fit_mode;
-
     placement += sizeof(allocator_with_fit_mode::fit_mode);
+
     *reinterpret_cast<size_t *>(placement) = space_size;
-
     placement += sizeof(size_t);
-    *reinterpret_cast<void **>(placement) = placement + sizeof(void *);
 
+    *reinterpret_cast<void **>(placement) = placement + sizeof(void *);
     *reinterpret_cast<void **>(*reinterpret_cast<void **>(placement)) = nullptr;
     *reinterpret_cast<size_t *>(reinterpret_cast<void **>(*reinterpret_cast<void **>(placement)) + 1)
         = space_size - available_block_metadata_size();
