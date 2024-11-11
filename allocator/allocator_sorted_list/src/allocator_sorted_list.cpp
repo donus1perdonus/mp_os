@@ -91,8 +91,7 @@ allocator_sorted_list::allocator_sorted_list(
     *logger_placement = logger;
 
     std::mutex* synchronizer_placement = reinterpret_cast<std::mutex*>(logger_placement + 1);
-    new (reinterpret_cast<void*>(synchronizer_placement)) std::mutex();
-    // allocator::construct(synchronizer_placement);
+    allocator::construct(synchronizer_placement);
 
     unsigned char* placement = reinterpret_cast<unsigned char*>(synchronizer_placement);
 

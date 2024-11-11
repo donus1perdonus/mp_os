@@ -17,7 +17,7 @@ logger *create_logger(
     {
         builder
             ->add_console_stream(console_stream_severity)
-            ->set_format("%d %t %s %m");;
+            ->set_format("%d %t %s %m");
     }
     
     for (auto &output_file_stream_setup: output_file_streams_setup)
