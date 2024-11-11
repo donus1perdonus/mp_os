@@ -16,9 +16,14 @@ allocator_sorted_list::~allocator_sorted_list() noexcept
     allocator::destruct(&obtain_synchronizer());
 
     this
+        ->debug_with_guard(get_typename() 
+        + " Destruct the object of mutex...");
+
+    this
         //->information_with_guard("...")
         //->warning_with_guard("...")
-        ->debug_with_guard(get_typename() + " allocator_sorted_list::~allocator_sorted_list()");
+        ->debug_with_guard(get_typename() 
+        + " Destruct the object of allocator sorted list...");
 
     deallocate_with_guard(_trusted_memory);
 }
@@ -26,10 +31,15 @@ allocator_sorted_list::~allocator_sorted_list() noexcept
 allocator_sorted_list::allocator_sorted_list(
     allocator_sorted_list&& other) noexcept
 {
-    debug_with_guard(get_typename() + 
-    " allocator_sorted_list::allocator_sorted_list(allocator_sorted_list &&) noexcept");
+    this
+        ->debug_with_guard(get_typename()
+        + " Call of overloaded move constructor...");
 
     _trusted_memory = other._trusted_memory;
+
+    this
+        ->debug_with_guard(get_typename()
+        + " Lock the object of synchronyzer...");
 
     std::lock_guard<std::mutex> lock(other.obtain_synchronizer());
 
@@ -39,8 +49,13 @@ allocator_sorted_list::allocator_sorted_list(
 allocator_sorted_list& allocator_sorted_list::operator=(
     allocator_sorted_list&& other) noexcept
 {
-    debug_with_guard(get_typename() + 
-    " allocator_sorted_list &allocator_sorted_list::operator=(allocator_sorted_list &&) noexcept");
+    this
+        ->debug_with_guard(get_typename()
+        + " Call of overloaded move operator=...");
+
+    this
+        ->debug_with_guard(get_typename()
+        + " Lock the object of synchronyzer...");
 
     std::lock_guard<std::mutex> lock(other.obtain_synchronizer());
 
@@ -65,7 +80,9 @@ allocator_sorted_list::allocator_sorted_list(
 {
     if (space_size < available_block_metadata_size())
     {
-        error_with_guard(get_typename() + " Can not allocate memory size < 0");
+        this->
+            error_with_guard(get_typename()
+            + " Can not allocate memory size < 0");
 
         throw std::logic_error("Can't initialize allocator instance");
     }
@@ -79,7 +96,8 @@ allocator_sorted_list::allocator_sorted_list(
     }
     catch (std::bad_alloc const& ex)
     {
-        error_with_guard(get_typename() + " " + ex.what());
+        this->
+            error_with_guard(get_typename() + " " + ex.what());
 
         throw;
     }
@@ -110,18 +128,21 @@ allocator_sorted_list::allocator_sorted_list(
     // AFTER:
     obtain_next_available_block_address(obtain_first_available_block_address_byref()) = nullptr;
 
-    *reinterpret_cast<size_t*>(reinterpret_cast<void**>(*reinterpret_cast<void**>(placement)) + 1) = space_size - available_block_metadata_size();
+    *reinterpret_cast<size_t*>(reinterpret_cast<void**>(*reinterpret_cast<void**>(placement)) + 1) 
+        = space_size - available_block_metadata_size();
 
-    debug_with_guard(get_typename() + 
-    " allocator_sorted_list::allocator_sorted_list(size_t, allocator *, logger *, allocator_with_fit_mode::fit_mode)");
+    this
+        ->debug_with_guard(get_typename() 
+        + " The object of allocator was created...");
 }
 
 [[nodiscard]] void* allocator_sorted_list::allocate(
     size_t value_size,
     size_t values_count)
 {
-    debug_with_guard(get_typename() + 
-    " [[nodiscard]] void *allocator_sorted_list::allocate(size_t, size_t)");
+    this->
+        debug_with_guard(get_typename() 
+        + " Call of the allocate...");
 
     std::lock_guard<std::mutex> lock(obtain_synchronizer());
 
@@ -166,16 +187,16 @@ allocator_sorted_list::allocator_sorted_list(
     //Implement block allocation
     //Logically: We take the block on the left, from the first of our block meta data fill, separate some piece of memory, and after this piece of memory put again the data meta
 
-    //*reinterpret_cast<void**>(target_block) = obtain_next_available_block_address(target_block);  //Pointer to next free block
-
     if (target_block == nullptr)
     {
-        error_with_guard(get_typename() +
-            " Can not allocate memory");
+        this->
+            error_with_guard(get_typename()
+            + " The avaliable block was not found...");
 
         throw std::bad_alloc();
     }
 
+    //Pointer to next free block
     void *next_block = obtain_next_available_block_address(target_block);
     bool remaining_part_left = target_block_size >= requested_size - ancillary_block_metadata_size();
     void *remaining_block;
@@ -213,13 +234,19 @@ allocator_sorted_list::allocator_sorted_list(
     // obtain_ancillary_block_size(target_block) = target_block_size;
     *reinterpret_cast<size_t *>(reinterpret_cast<unsigned char*>(target_block) + sizeof(void*)) = requested_size;
 
+    this->
+        debug_with_guard(get_typename()
+        + " Memory was allocate succesfully...");
+
     return reinterpret_cast<void *>(reinterpret_cast<unsigned char*>(target_block) + ancillary_block_metadata_size());
 }
 
 void allocator_sorted_list::deallocate(
     void* at)
 {
-    debug_with_guard(get_typename() + " void allocator_sorted_list::deallocate(void* at)");
+    this->
+        debug_with_guard(get_typename()
+        + " Call of the deallocate...");
 
     std::lock_guard<std::mutex> lock(obtain_synchronizer());
 
@@ -227,16 +254,23 @@ void allocator_sorted_list::deallocate(
 
     at = reinterpret_cast<void *>(reinterpret_cast<unsigned char *>(at) - ancillary_block_metadata_size());
 
-    if (at == nullptr || at < reinterpret_cast<unsigned char *>(_trusted_memory) + common_metadata_size() || at > reinterpret_cast<unsigned char *>(_trusted_memory) + common_metadata_size() + obtain_trusted_memory_size() - ancillary_block_metadata_size())
+    if (at == nullptr 
+        || at < reinterpret_cast<unsigned char *>(_trusted_memory) + common_metadata_size() 
+        || at > reinterpret_cast<unsigned char *>(_trusted_memory) + common_metadata_size() 
+            + obtain_trusted_memory_size() - ancillary_block_metadata_size())
     {
-        error_with_guard(get_typename() + " Invalid block address");
+        this->
+            error_with_guard(get_typename() 
+            + " Invalid block address...");
 
         throw std::logic_error("Invalid block address");
     }
 
     if (obtain_allocator_trusted_memory_ancillary_block_owner(at) != _trusted_memory)
     {
-        error_with_guard(get_typename() + " Attempt to deallocate block into wrong allocator instance");
+        this->
+            error_with_guard(get_typename() 
+            + " Attempt to deallocate block into wrong allocator instance");
 
         throw std::logic_error("Attempt to deallocate block into wrong allocator instance");
     }
@@ -286,10 +320,8 @@ void allocator_sorted_list::deallocate(
 inline void allocator_sorted_list::set_fit_mode(
     allocator_with_fit_mode::fit_mode mode)
 {
-    debug_with_guard(get_typename() + 
-    " inline void allocator_sorted_list::set_fit_mode(allocator_with_fit_mode::fit_mode)");
-
     std::lock_guard<std::mutex> lock(obtain_synchronizer());
+
     obtain_fit_mode() = mode;
 }
 
@@ -300,8 +332,11 @@ inline allocator* allocator_sorted_list::get_allocator() const
 
 std::vector<allocator_test_utils::block_info> allocator_sorted_list::get_blocks_info() const noexcept
 {
-    debug_with_guard(get_typename() + 
-    " std::vector<allocator_test_utils::block_info> allocator_sorted_list::get_blocks_info() const noexcept");
+    std::vector<allocator_test_utils::block_info> blocks_info;
+
+    
+
+    return blocks_info; 
 }
 
 inline logger* allocator_sorted_list::get_logger() const
@@ -397,7 +432,9 @@ void allocator_sorted_list::throw_if_allocator_instance_state_was_moved() const
 {
     if (_trusted_memory == nullptr)
     {
-        error_with_guard(get_typename() + " Allocator instance state was moved :/");
+        this->
+            error_with_guard(get_typename() 
+            + " Allocator instance state was moved :/");
 
         throw std::logic_error("Allocator instance state was moved :/");
     }
