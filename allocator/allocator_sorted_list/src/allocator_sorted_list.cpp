@@ -12,36 +12,23 @@ allocator_sorted_list::~allocator_sorted_list() noexcept
         return;
     }
 
-    // obtain_synchronizer().~mutex();
-    allocator::destruct(&obtain_synchronizer());
+    debug_with_guard(get_typename() + 
+    " allocator_sorted_list::~allocator_sorted_list()");
 
-    this
-        ->debug_with_guard(get_typename() 
-        + " Destruct the object of mutex...");
-
-    this
-        //->information_with_guard("...")
-        //->warning_with_guard("...")
-        ->debug_with_guard(get_typename() 
-        + " Destruct the object of allocator sorted list...");
+    allocator::destruct(&get_mutex());
 
     deallocate_with_guard(_trusted_memory);
 }
 
 allocator_sorted_list::allocator_sorted_list(
-    allocator_sorted_list&& other) noexcept
+    allocator_sorted_list &&other) noexcept
 {
-    this
-        ->debug_with_guard(get_typename()
-        + " Call of overloaded move constructor...");
+    debug_with_guard(get_typename() + 
+    " allocator_sorted_list::allocator_sorted_list(allocator_sorted_list &&) noexcept");
 
     _trusted_memory = other._trusted_memory;
 
-    this
-        ->debug_with_guard(get_typename()
-        + " Lock the object of synchronyzer...");
-
-    std::lock_guard<std::mutex> lock(other.obtain_synchronizer());
+    std::lock_guard<std::mutex> lock(other.get_mutex());
 
     other._trusted_memory = nullptr;   
 }
@@ -49,18 +36,14 @@ allocator_sorted_list::allocator_sorted_list(
 allocator_sorted_list& allocator_sorted_list::operator=(
     allocator_sorted_list&& other) noexcept
 {
-    this
-        ->debug_with_guard(get_typename()
-        + " Call of overloaded move operator=...");
+    debug_with_guard(get_typename() + 
+    " allocator_sorted_list &allocator_sorted_list::operator=(allocator_sorted_list &&) noexcept");
 
-    this
-        ->debug_with_guard(get_typename()
-        + " Lock the object of synchronyzer...");
-
-    std::lock_guard<std::mutex> lock(other.obtain_synchronizer());
+    std::lock_guard<std::mutex> lock(other.get_mutex());
 
     if (this != &other)
     {
+        allocator::destruct(&get_mutex());
         deallocate_with_guard(_trusted_memory);
 
         _trusted_memory = other._trusted_memory;
@@ -94,8 +77,8 @@ allocator_sorted_list::allocator_sorted_list(
     {
         throw;
     }
-
-    allocator** parent_allocator_placement = reinterpret_cast<allocator**>(_trusted_memory);
+    
+    allocator **parent_allocator_placement = reinterpret_cast<allocator **>(_trusted_memory);
     *parent_allocator_placement = parent_allocator;
 
     class logger** logger_placement = reinterpret_cast<class logger**>(parent_allocator_placement + 1);
@@ -104,24 +87,20 @@ allocator_sorted_list::allocator_sorted_list(
     std::mutex* synchronizer_placement = reinterpret_cast<std::mutex*>(logger_placement + 1);
     allocator::construct(synchronizer_placement);
 
-    unsigned char* placement = reinterpret_cast<unsigned char*>(synchronizer_placement);
-
+    unsigned char *placement = reinterpret_cast<unsigned char *>
+        (synchronizer_placement);
     placement += sizeof(std::mutex);
-    *reinterpret_cast<allocator_with_fit_mode::fit_mode*>(placement) = allocate_fit_mode;
 
+    *reinterpret_cast<allocator_with_fit_mode::fit_mode *>(placement) =
+        allocate_fit_mode;
     placement += sizeof(allocator_with_fit_mode::fit_mode);
-    *reinterpret_cast<size_t*>(placement) = space_size;
 
+    *reinterpret_cast<size_t *>(placement) = space_size;
     placement += sizeof(size_t);
-    *reinterpret_cast<void**>(placement) = placement + sizeof(void*);
 
-    // BEFORE:
-    //*reinterpret_cast<void **>(*reinterpret_cast<void **>(placement)) = nullptr;
-
-    // AFTER:
-    obtain_next_available_block_address(obtain_first_available_block_address_byref()) = nullptr;
-
-    *reinterpret_cast<size_t*>(reinterpret_cast<void**>(*reinterpret_cast<void**>(placement)) + 1) 
+    *reinterpret_cast<void **>(placement) = placement + sizeof(void *);
+    *reinterpret_cast<void **>(*reinterpret_cast<void **>(placement)) = nullptr;
+    *reinterpret_cast<size_t *>(reinterpret_cast<void **>(*reinterpret_cast<void **>(placement)) + 1)
         = space_size - available_block_metadata_size();
 
     this
@@ -162,9 +141,9 @@ allocator_sorted_list::allocator_sorted_list(
     size_t target_block_size;
 
     {
-        void *current_block, *previous_block = nullptr;
-        current_block = obtain_first_available_block_address_byref();
-        allocator_with_fit_mode::fit_mode fit_mode = obtain_fit_mode();
+        void *current_block, *previous_block = get_first_available_block_address();
+        current_block = get_first_available_block_address();
+        allocator_with_fit_mode::fit_mode fit_mode = get_fit_mode();
 
         while (current_block != nullptr)
         {
@@ -205,49 +184,32 @@ allocator_sorted_list::allocator_sorted_list(
         throw std::bad_alloc();
     }
 
-    //Pointer to next free block
-    void *next_block = obtain_next_available_block_address(target_block);
-    bool remaining_part_left = target_block_size >= requested_size - ancillary_block_metadata_size();
-    void *remaining_block;
-
-    if (remaining_part_left)
+    if (target_block_size - requested_size < available_block_metadata_size())
     {
-        remaining_block = reinterpret_cast<void *>(reinterpret_cast<unsigned char *>(target_block)
-                                                   + requested_size
-            /*+ available_block_metadata_size()*/);
+        *reinterpret_cast<void **>(previous_to_target_block) = 
+            *reinterpret_cast<void **>(target_block);
+        *reinterpret_cast<void **>(target_block) = _trusted_memory;
 
-        // TODO: this two instructions are the same
-        obtain_next_available_block_address(remaining_block) = next_block;
-        //*reinterpret_cast<void **>(remaining_block) = next_block;
-
-        *reinterpret_cast<size_t *>(reinterpret_cast<unsigned char *>(remaining_block) + sizeof(void *)) =
-            target_block_size - requested_size;
-    }
-    else
-    {
-        // TODO: user request was redefined
-        requested_size = target_block_size;
+        return reinterpret_cast<void *>(
+            reinterpret_cast<unsigned char *>(target_block) + ancillary_block_metadata_size());
     }
 
-    *(previous_to_target_block != nullptr
-        ? reinterpret_cast<void**>(previous_to_target_block)
-        : &obtain_first_available_block_address_byref()) = (remaining_part_left
-            ? remaining_block
-            : next_block);
+    *reinterpret_cast<void **>(reinterpret_cast<unsigned char *>(target_block) + requested_size) 
+        = *reinterpret_cast<void **>(target_block); // новый свободный указывает на то, на что указывал старый свободный
 
-    // TODO: this two instructions are the same
-    obtain_allocator_trusted_memory_ancillary_block_owner(target_block) = _trusted_memory;
-    // *reinterpret_cast<void **>(target_block) = _trusted_memory;
+    *reinterpret_cast<void **>(target_block) = _trusted_memory; // старый свободный начинает указывать на начало памяти (становится занятыми и нужно для проверки на принадлежность дял текущего объекта аллокатора)
+    *reinterpret_cast<size_t *>(reinterpret_cast<unsigned char *>(target_block) + sizeof(void *)) 
+        = requested_size; // в размер занятого кладётся размер полученного блока
 
-    // TODO: this two instructions are the same
-    obtain_ancillary_block_size(target_block) = target_block_size;
-    // *reinterpret_cast<size_t *>(reinterpret_cast<unsigned char*>(target_block) + sizeof(void*)) = requested_size;
+    *reinterpret_cast<size_t *>(
+        reinterpret_cast<unsigned char *>(
+            target_block) + requested_size + sizeof(void *))
+            = target_block_size - requested_size; // в размер нового блока кладется размер старого свободного - запрошенная память
+    *reinterpret_cast<void **>(previous_to_target_block) 
+        = reinterpret_cast<unsigned char *>(target_block) + requested_size; // указатель предыдущего блока указывает на новый свободный
 
-    this->
-        debug_with_guard(get_typename()
-        + " Memory was allocate succesfully...");
-
-    return reinterpret_cast<void *>(reinterpret_cast<unsigned char*>(target_block) + ancillary_block_metadata_size());
+    return reinterpret_cast<void *>(
+        reinterpret_cast<unsigned char *>(target_block) + ancillary_block_metadata_size()); // возвращаем указатель на память без метаданных
 }
 
 void allocator_sorted_list::deallocate(
