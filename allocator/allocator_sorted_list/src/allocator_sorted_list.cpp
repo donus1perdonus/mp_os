@@ -61,7 +61,6 @@ allocator_sorted_list& allocator_sorted_list::operator=(
 
     if (this != &other)
     {
-        allocator::destruct(&obtain_synchronizer());
         deallocate_with_guard(_trusted_memory);
 
         _trusted_memory = other._trusted_memory;
@@ -80,14 +79,11 @@ allocator_sorted_list::allocator_sorted_list(
 {
     if (space_size < available_block_metadata_size())
     {
-        this->
-            error_with_guard(get_typename()
-            + " Can not allocate memory size < 0");
-
         throw std::logic_error("Can't initialize allocator instance");
     }
 
     size_t memory_size = space_size + common_metadata_size();
+
     try
     {
         _trusted_memory = parent_allocator == nullptr
@@ -96,9 +92,6 @@ allocator_sorted_list::allocator_sorted_list(
     }
     catch (std::bad_alloc const& ex)
     {
-        this->
-            error_with_guard(get_typename() + " " + ex.what());
-
         throw;
     }
 
@@ -109,8 +102,7 @@ allocator_sorted_list::allocator_sorted_list(
     *logger_placement = logger;
 
     std::mutex* synchronizer_placement = reinterpret_cast<std::mutex*>(logger_placement + 1);
-    new (reinterpret_cast<void*>(synchronizer_placement)) std::mutex();
-    // allocator::construct(synchronizer_placement);
+    allocator::construct(synchronizer_placement);
 
     unsigned char* placement = reinterpret_cast<unsigned char*>(synchronizer_placement);
 
@@ -135,6 +127,12 @@ allocator_sorted_list::allocator_sorted_list(
     this
         ->debug_with_guard(get_typename() 
         + " The object of allocator was created...");
+
+    this
+        ->trace_with_guard(get_typename()
+        + "The avaliable size of allocator memory is " 
+        + std::to_string(memory_size - common_metadata_size())
+        + " bytes");
 }
 
 [[nodiscard]] void* allocator_sorted_list::allocate(
@@ -145,7 +143,17 @@ allocator_sorted_list::allocator_sorted_list(
         debug_with_guard(get_typename() 
         + " Call of the allocate...");
 
+    this->
+        trace_with_guard(get_typename()
+        + " Request the block with size: "
+        + std::to_string(value_size * values_count)
+        + " bytes");
+
     std::lock_guard<std::mutex> lock(obtain_synchronizer());
+
+    this->
+        trace_with_guard(get_typename()
+        + " Lock the object of synchronyzer...");
 
     throw_if_allocator_instance_state_was_moved();
 
@@ -209,8 +217,8 @@ allocator_sorted_list::allocator_sorted_list(
             /*+ available_block_metadata_size()*/);
 
         // TODO: this two instructions are the same
-        //obtain_next_available_block_address(remaining_block) = next_block;
-        *reinterpret_cast<void **>(remaining_block) = next_block;
+        obtain_next_available_block_address(remaining_block) = next_block;
+        //*reinterpret_cast<void **>(remaining_block) = next_block;
 
         *reinterpret_cast<size_t *>(reinterpret_cast<unsigned char *>(remaining_block) + sizeof(void *)) =
             target_block_size - requested_size;
@@ -228,12 +236,12 @@ allocator_sorted_list::allocator_sorted_list(
             : next_block);
 
     // TODO: this two instructions are the same
-    // obtain_allocator_trusted_memory_ancillary_block_owner(target_block) = _trusted_memory;
-    *reinterpret_cast<void **>(target_block) = _trusted_memory;
+    obtain_allocator_trusted_memory_ancillary_block_owner(target_block) = _trusted_memory;
+    // *reinterpret_cast<void **>(target_block) = _trusted_memory;
 
     // TODO: this two instructions are the same
-    // obtain_ancillary_block_size(target_block) = target_block_size;
-    *reinterpret_cast<size_t *>(reinterpret_cast<unsigned char*>(target_block) + sizeof(void*)) = requested_size;
+    obtain_ancillary_block_size(target_block) = target_block_size;
+    // *reinterpret_cast<size_t *>(reinterpret_cast<unsigned char*>(target_block) + sizeof(void*)) = requested_size;
 
     this->
         debug_with_guard(get_typename()
