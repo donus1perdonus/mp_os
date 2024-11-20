@@ -36,17 +36,25 @@ logger *create_logger(
 
 TEST(allocatorSortedListPositiveTests, test1)
 {
-    //TODO: logger
-    
-    allocator *alloc = new allocator_sorted_list(3000,
-        nullptr, 
-        create_logger(std::vector<std::pair<std::string, logger::severity>>
+    logger* logger_instance = create_logger(std::vector<std::pair<std::string, logger::severity>>
             {
                 {
                     "allocator_sorted_list_tests_1.txt",
                     logger::severity::debug
+                },
+                {
+                    "allocator_sorted_list_tests_1.txt",
+                    logger::severity::trace
+                },
+                {
+                    "allocator_sorted_list_tests_1.txt",
+                    logger::severity::information
                 }
-            }),
+            });
+
+    allocator *alloc = new allocator_sorted_list(3000,
+        nullptr, 
+        logger_instance,
         allocator_with_fit_mode::fit_mode::first_fit);
     
     auto first_block = reinterpret_cast<int *>(alloc->allocate(sizeof(int), 250));
@@ -62,23 +70,31 @@ TEST(allocatorSortedListPositiveTests, test1)
     //TODO: Проверка
     
     delete alloc;
+    delete logger_instance;
 }
 
 TEST(allocatorSortedListPositiveTests, test2)
 {
-    
-    //TODO: logger
-    
-    allocator *alloc = new allocator_sorted_list(
-        3000, 
-        nullptr, 
-        create_logger(std::vector<std::pair<std::string, logger::severity>>
+    logger* logger_instance = create_logger(std::vector<std::pair<std::string, logger::severity>>
             {
                 {
                     "allocator_sorted_list_tests_2.txt",
                     logger::severity::debug
+                },
+                {
+                    "allocator_sorted_list_tests_2.txt",
+                    logger::severity::trace
+                },
+                {
+                    "allocator_sorted_list_tests_2.txt",
+                    logger::severity::information
                 }
-            }),
+            });
+
+    allocator *alloc = new allocator_sorted_list(
+        3000, 
+        nullptr, 
+        logger_instance,
         allocator_with_fit_mode::fit_mode::the_worst_fit);
     
     auto first_block = reinterpret_cast<int *>(alloc->allocate(sizeof(int), 250));
@@ -96,21 +112,32 @@ TEST(allocatorSortedListPositiveTests, test2)
     //TODO: проверка
     
     delete alloc;
+
+    delete logger_instance;
 }
 
 TEST(allocatorSortedListPositiveTests, test3)
 {
-    //TODO: logger
-    allocator *allocator = new allocator_sorted_list(
-        5000, 
-        nullptr, 
-        create_logger(std::vector<std::pair<std::string, logger::severity>>
+    logger* logger_instance = create_logger(std::vector<std::pair<std::string, logger::severity>>
             {
                 {
                     "allocator_sorted_list_tests_3.txt",
                     logger::severity::debug
+                },
+                {
+                    "allocator_sorted_list_tests_3.txt",
+                    logger::severity::trace
+                },
+                {
+                    "allocator_sorted_list_tests_3.txt",
+                    logger::severity::information
                 }
-            }),
+            });
+
+    allocator *allocator = new allocator_sorted_list(
+        5000, 
+        nullptr, 
+        logger_instance,
         allocator_with_fit_mode::fit_mode::first_fit);
     
     int iterations_count = 100;
@@ -163,25 +190,32 @@ TEST(allocatorSortedListPositiveTests, test3)
     //TODO: проверка
     
     delete allocator;
-    // delete logger;
-    
-    
+
+    delete logger_instance;
 }
 
 TEST(allocatorSortedListPositiveTests, test4)
 {
-    //TODO: logger
-    
-    allocator *alloc = new allocator_sorted_list(
-        1000, 
-        nullptr, 
-        create_logger(std::vector<std::pair<std::string, logger::severity>>
+    logger* logger_instance = create_logger(std::vector<std::pair<std::string, logger::severity>>
             {
                 {
                     "allocator_sorted_list_tests_4.txt",
                     logger::severity::debug
+                },
+                {
+                    "allocator_sorted_list_tests_4.txt",
+                    logger::severity::trace
+                },
+                {
+                    "allocator_sorted_list_tests_4.txt",
+                    logger::severity::information
                 }
-            }),
+            });
+    
+    allocator *alloc = new allocator_sorted_list(
+        1000, 
+        nullptr, 
+        logger_instance,
         allocator_with_fit_mode::fit_mode::first_fit);
     
     auto first_block = reinterpret_cast<unsigned char *>(alloc->allocate(sizeof(unsigned char), 250));
@@ -204,20 +238,32 @@ TEST(allocatorSortedListPositiveTests, test4)
     //TODO: проверка
     
     delete alloc;
+
+    delete logger_instance;
 }
 
 TEST(allocatorSortedListPositiveTests, test5)
 {
-    allocator *alloc = new allocator_sorted_list(
-        3000, 
-        nullptr, 
-        create_logger(std::vector<std::pair<std::string, logger::severity>>
+    logger* logger_instance = create_logger(std::vector<std::pair<std::string, logger::severity>>
             {
                 {
                     "allocator_sorted_list_tests_5.txt",
                     logger::severity::debug
+                },
+                {
+                    "allocator_sorted_list_tests_5.txt",
+                    logger::severity::trace
+                },
+                {
+                    "allocator_sorted_list_tests_5.txt",
+                    logger::severity::information
                 }
-            }), 
+            });
+
+    allocator *alloc = new allocator_sorted_list(
+        3000, 
+        nullptr, 
+        logger_instance, 
         allocator_with_fit_mode::fit_mode::first_fit);
     
     auto first_block = reinterpret_cast<int *>(alloc->allocate(sizeof(int), 250));
@@ -289,7 +335,7 @@ TEST(allocatorSortedListPositiveTests, test5)
     //TODO: проверка
     
     delete allocator;
-    // delete logger;
+    delete logger_instance;
     
     delete alloc;
 }
@@ -299,19 +345,28 @@ TEST(allocatorSortedListPositiveTests, test5)
 
 TEST(allocatorSortedListNegativeTests, test1)
 {
-    logger *logger = create_logger(std::vector<std::pair<std::string, logger::severity>>
+    logger* logger_instance = create_logger(std::vector<std::pair<std::string, logger::severity>>
         {
+            {
+                "allocator_sorted_list_tests_logs_negative_test_1.txt",
+                logger::severity::debug
+            },
+            {
+                "allocator_sorted_list_tests_logs_negative_test_1.txt",
+                logger::severity::trace
+            },
             {
                 "allocator_sorted_list_tests_logs_negative_test_1.txt",
                 logger::severity::information
             }
         });
-    allocator *alloc = new allocator_sorted_list(3000, nullptr, logger, allocator_with_fit_mode::fit_mode::first_fit);
+
+    allocator *alloc = new allocator_sorted_list(3000, nullptr, logger_instance, allocator_with_fit_mode::fit_mode::first_fit);
     
     ASSERT_THROW(alloc->allocate(sizeof(char), 3100), std::bad_alloc);
     
     delete alloc;
-    delete logger;
+    delete logger_instance;
 }
 
 int main(

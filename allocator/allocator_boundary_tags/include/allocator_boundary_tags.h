@@ -72,7 +72,38 @@ private:
 private:
     
     inline std::string get_typename() const noexcept override;
-    
+
+private:
+
+    size_t &obtain_trusted_memory_size() const;
+
+    static size_t constexpr common_metadata_size();
+
+    static size_t constexpr available_block_metadata_size();
+
+    static size_t constexpr ancillary_block_metadata_size();
+
+    std::mutex& obtain_synchronizer() const;
+
+    void*& obtain_first_available_block_address_byref() const;
+
+    void** obtain_first_available_block_address_byptr() const;
+
+    static void *&obtain_allocator_trusted_memory_ancillary_block_owner(
+        void *current_ancillary_block_address);
+
+    static size_t &obtain_ancillary_block_size(
+        void *current_ancillary_block_address);
+
+    static void*& obtain_next_available_block_address(
+        void* current_available_block_address);
+
+    static size_t& obtain_available_block_size(
+        void* current_available_block_address);
+
+    allocator_with_fit_mode::fit_mode& obtain_fit_mode() const;
+
+    inline void throw_if_allocator_instance_state_was_moved() const;
 };
 
 #endif //MATH_PRACTICE_AND_OPERATING_SYSTEMS_ALLOCATOR_ALLOCATOR_BOUNDARY_TAGS_H

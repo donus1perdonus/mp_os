@@ -1,0 +1,12 @@
+20.11.2024 22:19:13 DEBUG [allocator_global_heap] Created the object...
+20.11.2024 22:19:13 DEBUG [allocator_global_heap] Call of the allocate...)
+20.11.2024 22:19:13 DEBUG [allocator_global_heap] Memory allocated succesfully
+20.11.2024 22:19:13 INFORMATION [allocator_global_heap] Size of allocated memory is 150 bytes
+20.11.2024 22:19:13 DEBUG [allocator_global_heap] Call of the allocate...)
+20.11.2024 22:19:13 DEBUG [allocator_global_heap] Memory allocated succesfully
+20.11.2024 22:19:13 INFORMATION [allocator_global_heap] Size of allocated memory is 300 bytes
+20.11.2024 22:19:13 DEBUG [allocator_global_heap] Call of the deallocate
+20.11.2024 22:19:13 DEBUG [allocator_global_heap] Deallocate succesfully
+20.11.2024 22:19:13 DEBUG [allocator_global_heap] Call of the deallocate
+20.11.2024 22:19:13 DEBUG [allocator_global_heap] Deallocate succesfully
+20.11.2024 22:19:13 DEBUG [allocator_global_heap] Destruct the object...

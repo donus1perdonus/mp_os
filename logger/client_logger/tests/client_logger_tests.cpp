@@ -6,7 +6,7 @@ int main()
     client_logger_builder * b1 = new client_logger_builder;
 
     logger* l1 = b1->transform_with_configuration(
-        "C:\\Users\\artio\\projectsvscode\\mp_os\\logger\\logger_conf.json", "file_paths")
+        "C:\\Users\\artio\\projectsvscode\\mp_os\\logs\\logger_conf.json", "file_paths")
         ->set_format("[%d %t] %s %m")
         ->build();
 
@@ -15,7 +15,7 @@ int main()
     client_logger_builder * b2 = new client_logger_builder;
 
     logger* l2 = b2->transform_with_configuration(
-        "C:\\Users\\artio\\projectsvscode\\mp_os\\logger\\logger_conf.json", "file_paths")
+        "C:\\Users\\artio\\projectsvscode\\mp_os\\logs\\logger_conf.json", "file_paths")
         ->set_format("[%d %t] %s %m")
         ->build();
 

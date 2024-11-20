@@ -5,13 +5,13 @@ allocator_global_heap::allocator_global_heap(
     : _logger(logger)
 {
     debug_with_guard(get_typename() + 
-        " allocator_global_heap::allocator_global_heap(logger *logger)");
+        " Created the object...");
 }
 
 allocator_global_heap::~allocator_global_heap()
 {
     debug_with_guard(get_typename() + 
-        " allocator_global_heap::~allocator_global_heap()");
+        " Destruct the object...");
 
     delete _logger;
 }
@@ -21,7 +21,7 @@ allocator_global_heap::allocator_global_heap(
     : _logger(std::move(other._logger))
 {
     debug_with_guard(get_typename() + 
-        " allocator_global_heap::allocator_global_heap(allocator_global_heap &&other) noexcept");
+        " Call of overloaded move constructor...");
 
     other._logger = nullptr;
 }
@@ -30,7 +30,7 @@ allocator_global_heap &allocator_global_heap::operator=(
     allocator_global_heap &&other) noexcept
 {
     debug_with_guard(get_typename() + 
-        " allocator_global_heap &allocator_global_heap::operator=(allocator_global_heap &&other) noexcept");
+        " Call of overloaded move operator=...");
 
     if (this != &other)
     {
@@ -46,7 +46,7 @@ allocator_global_heap &allocator_global_heap::operator=(
     size_t values_count)
 {
     debug_with_guard(get_typename() + 
-        " [[nodiscard]] void *allocator_global_heap::allocate()");
+        " Call of the allocate...");
 
     void* memory = nullptr;
 
@@ -56,14 +56,18 @@ allocator_global_heap &allocator_global_heap::operator=(
         
         debug_with_guard(get_typename() + 
             " Memory allocated succesfully");
-    
     } catch (const std::bad_alloc& e) {
         
-        debug_with_guard(get_typename() + 
+        error_with_guard(get_typename() + 
             " Memory allocate error");
         
         throw;
     }
+
+    information_with_guard(get_typename()
+        + " Size of allocated memory is "
+        + std::to_string(value_size * values_count)
+        + " bytes");
 
     return memory;
 }
@@ -72,12 +76,12 @@ void allocator_global_heap::deallocate(
     void *at)
 {
     debug_with_guard(get_typename() + 
-        " void allocator_global_heap::deallocate()");
+        " Call of the deallocate");
 
     if (at == nullptr) 
     {
         error_with_guard(get_typename() + 
-            "Attempt to deallocate null pointer");
+            " Attempt to deallocate null pointer");
 
         throw std::logic_error("Attempt to deallocate null pointer");
     }

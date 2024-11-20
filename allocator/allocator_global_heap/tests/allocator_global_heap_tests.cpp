@@ -5,18 +5,55 @@
 #include <logger.h>
 #include <logger_builder.h>
 
+logger *create_logger(
+    std::vector<std::pair<std::string, logger::severity>> const &output_file_streams_setup,
+    bool use_console_stream = true,
+    logger::severity console_stream_severity = logger::severity::debug)
+{
+    logger_builder *builder = new client_logger_builder();
+    
+    if (use_console_stream)
+    {
+        builder
+            ->add_console_stream(console_stream_severity)
+            ->set_format("%d %t %s %m");
+    }
+    
+    for (auto &output_file_stream_setup: output_file_streams_setup)
+    {
+        builder
+            ->add_file_stream(output_file_stream_setup.first, output_file_stream_setup.second)
+            ->set_format("%d %t %s %m");
+    }
+    
+    logger *built_logger = builder->build();
+    
+    delete builder;
+    
+    return built_logger;
+}
+
 TEST(allocatorGlobalHeapTests, test2)
 {
-    
-    logger_builder *logger_builder_instance = new client_logger_builder;
-    
-    logger *logger_instance = logger_builder_instance
-        ->add_file_stream("gh_alc_test2_logs.txt", logger::severity::debug)
-        ->set_format("%d %t %s %m")
-        ->build();
-    delete logger_builder_instance;
-    
-    allocator *allocator_instance = new allocator_global_heap(logger_instance);
+    allocator *allocator_instance = new allocator_global_heap(
+        create_logger
+        (
+            std::vector<std::pair<std::string, logger::severity>>
+            {
+                {
+                    "gh_alc_test2_logs.txt",
+                    logger::severity::debug
+                },
+                {
+                    "gh_alc_test2_logs.txt",
+                    logger::severity::trace
+                },
+                {
+                    "gh_alc_test2_logs.txt",
+                    logger::severity::information
+                }
+            }
+        ));
     
     auto first_block = reinterpret_cast<char *>(allocator_instance->allocate(sizeof(char), 11));
     
@@ -31,7 +68,25 @@ TEST(allocatorGlobalHeapTests, test3)
 {
     int const values_to_allocate_count = 30;
     
-    allocator *allocator_instance = new allocator_global_heap(nullptr);
+    allocator *allocator_instance = new allocator_global_heap(
+        create_logger
+        (
+            std::vector<std::pair<std::string, logger::severity>>
+            {
+                {
+                    "gh_alc_test3_logs.txt",
+                    logger::severity::debug
+                },
+                {
+                    "gh_alc_test3_logs.txt",
+                    logger::severity::trace
+                },
+                {
+                    "gh_alc_test3_logs.txt",
+                    logger::severity::information
+                }
+            }
+        ));
     
     auto first_block = reinterpret_cast<unsigned int *>(allocator_instance->allocate(sizeof(unsigned int), values_to_allocate_count));
     auto second_block = reinterpret_cast<unsigned int *>(allocator_instance->allocate(sizeof(unsigned long int), values_to_allocate_count));
@@ -55,7 +110,25 @@ TEST(allocatorGlobalHeapTests, test4)
 {
     int const values_to_allocate_count = 75;
     
-    allocator *allocator_instance = new allocator_global_heap;
+    allocator *allocator_instance = new allocator_global_heap(
+        create_logger
+        (
+            std::vector<std::pair<std::string, logger::severity>>
+            {
+                {
+                    "gh_alc_test4_logs.txt",
+                    logger::severity::debug
+                },
+                {
+                    "gh_alc_test4_logs.txt",
+                    logger::severity::trace
+                },
+                {
+                    "gh_alc_test4_logs.txt",
+                    logger::severity::information
+                }
+            }
+        ));
     
     auto first_block = reinterpret_cast<short *>(allocator_instance->allocate(sizeof(short), values_to_allocate_count));
     auto second_block = reinterpret_cast<float *>(allocator_instance->allocate(sizeof(float), values_to_allocate_count));
@@ -91,7 +164,25 @@ TEST(allocatorGlobalHeapTests, test5)
         }
     };
     
-    allocator *allocator_instance = new allocator_global_heap;
+    allocator *allocator_instance = new allocator_global_heap(
+        create_logger
+        (
+            std::vector<std::pair<std::string, logger::severity>>
+            {
+                {
+                    "gh_alc_test5_logs.txt",
+                    logger::severity::debug
+                },
+                {
+                    "gh_alc_test5_logs.txt",
+                    logger::severity::trace
+                },
+                {
+                    "gh_alc_test5_logs.txt",
+                    logger::severity::information
+                }
+            }
+        ));
     
     struct_metainfo *metainfo_instance = reinterpret_cast<struct_metainfo *>(allocator_instance->allocate(sizeof(struct_metainfo), 1));
     allocator::construct<struct_metainfo>(metainfo_instance, 10, std::string("string"));

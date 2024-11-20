@@ -129,7 +129,7 @@ allocator_sorted_list::allocator_sorted_list(
         + " The object of allocator was created...");
 
     this
-        ->trace_with_guard(get_typename()
+        ->information_with_guard(get_typename()
         + "The avaliable size of allocator memory is " 
         + std::to_string(memory_size - common_metadata_size())
         + " bytes");
@@ -144,7 +144,7 @@ allocator_sorted_list::allocator_sorted_list(
         + " Call of the allocate...");
 
     this->
-        trace_with_guard(get_typename()
+        information_with_guard(get_typename()
         + " Request the block with size: "
         + std::to_string(value_size * values_count)
         + " bytes");
@@ -205,6 +205,12 @@ allocator_sorted_list::allocator_sorted_list(
         throw std::bad_alloc();
     }
 
+    this->
+        information_with_guard(get_typename()
+        + " Find the avaliable block with size "
+        + std::to_string(target_block_size)
+        + " bytes");
+
     //Pointer to next free block
     void *next_block = obtain_next_available_block_address(target_block);
     bool remaining_part_left = target_block_size >= requested_size - ancillary_block_metadata_size();
@@ -258,6 +264,10 @@ void allocator_sorted_list::deallocate(
         + " Call of the deallocate...");
 
     std::lock_guard<std::mutex> lock(obtain_synchronizer());
+
+    this->
+        trace_with_guard(get_typename()
+        + " Lock the object of synchronyzer...");
 
     throw_if_allocator_instance_state_was_moved();
 
@@ -316,6 +326,10 @@ void allocator_sorted_list::deallocate(
     {
         obtain_available_block_size(at) += obtain_available_block_size(right_available_block) + available_block_metadata_size();
         obtain_next_available_block_address(at) = obtain_next_available_block_address(right_available_block);
+
+        this->
+            information_with_guard(get_typename()
+            + " Merge with right block");
     }
 
     // merge with left block
@@ -323,6 +337,10 @@ void allocator_sorted_list::deallocate(
     {
         obtain_available_block_size(left_available_block) += obtain_available_block_size(at) + available_block_metadata_size();
         obtain_next_available_block_address(left_available_block) = obtain_next_available_block_address(at);
+
+        this->
+            information_with_guard(get_typename()
+            + " Merge with left block");
     }
 }
 
@@ -343,8 +361,34 @@ std::vector<allocator_test_utils::block_info> allocator_sorted_list::get_blocks_
 {
     std::vector<allocator_test_utils::block_info> blocks_info;
 
-    
+    void * first_block_adress = *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(_trusted_memory)
+                                    + sizeof(allocator*)
+                                    + sizeof(logger*)
+                                    + sizeof(std::mutex)
+                                    + sizeof(allocator_with_fit_mode::fit_mode)
+                                    + sizeof(size_t));
 
+    void * block_adress = first_block_adress;
+
+    while(block_adress != nullptr)
+    {
+        allocator_test_utils::block_info block_info;
+
+        block_adress == _trusted_memory
+            ? block_info.is_block_occupied = true
+            : block_info.is_block_occupied = false;
+
+        block_info.block_size = *reinterpret_cast<size_t *>(
+            reinterpret_cast<unsigned char *>(block_adress) + 1);
+
+        blocks_info.push_back(block_info);
+
+        block_adress = *reinterpret_cast<void **>(
+            reinterpret_cast<unsigned char *>(block_adress) 
+            + 1
+            + block_info.block_size);
+    }
+    
     return blocks_info; 
 }
 
