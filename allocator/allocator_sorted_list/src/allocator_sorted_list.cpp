@@ -15,7 +15,7 @@ allocator_sorted_list::~allocator_sorted_list() noexcept
     debug_with_guard(get_typename() + 
     " allocator_sorted_list::~allocator_sorted_list()");
 
-    allocator::destruct(&get_mutex());
+    allocator::destruct(&obtain_synchronizer());
 
     deallocate_with_guard(_trusted_memory);
 }
@@ -28,7 +28,7 @@ allocator_sorted_list::allocator_sorted_list(
 
     _trusted_memory = other._trusted_memory;
 
-    std::lock_guard<std::mutex> lock(other.get_mutex());
+    std::lock_guard<std::mutex> lock(other.obtain_synchronizer());
 
     other._trusted_memory = nullptr;   
 }
@@ -39,11 +39,11 @@ allocator_sorted_list& allocator_sorted_list::operator=(
     debug_with_guard(get_typename() + 
     " allocator_sorted_list &allocator_sorted_list::operator=(allocator_sorted_list &&) noexcept");
 
-    std::lock_guard<std::mutex> lock(other.get_mutex());
+    std::lock_guard<std::mutex> lock(other.obtain_synchronizer());
 
     if (this != &other)
     {
-        allocator::destruct(&get_mutex());
+        allocator::destruct(&obtain_synchronizer());
         deallocate_with_guard(_trusted_memory);
 
         _trusted_memory = other._trusted_memory;
@@ -141,9 +141,9 @@ allocator_sorted_list::allocator_sorted_list(
     size_t target_block_size;
 
     {
-        void *current_block, *previous_block = get_first_available_block_address();
-        current_block = get_first_available_block_address();
-        allocator_with_fit_mode::fit_mode fit_mode = get_fit_mode();
+        void *current_block, *previous_block = obtain_first_available_block_address_byref();
+        current_block = obtain_first_available_block_address_byref();
+        allocator_with_fit_mode::fit_mode fit_mode = obtain_fit_mode();
 
         while (current_block != nullptr)
         {
