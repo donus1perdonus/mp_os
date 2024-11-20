@@ -16,7 +16,7 @@ allocator_sorted_list::~allocator_sorted_list() noexcept
     allocator::destruct(&obtain_synchronizer());
 
     this
-        ->debug_with_guard(get_typename() 
+        ->trace_with_guard(get_typename() 
         + " Destruct the object of mutex...");
 
     this
@@ -38,7 +38,7 @@ allocator_sorted_list::allocator_sorted_list(
     _trusted_memory = other._trusted_memory;
 
     this
-        ->debug_with_guard(get_typename()
+        ->trace_with_guard(get_typename()
         + " Lock the object of synchronyzer...");
 
     std::lock_guard<std::mutex> lock(other.obtain_synchronizer());
@@ -54,7 +54,7 @@ allocator_sorted_list& allocator_sorted_list::operator=(
         + " Call of move operator=...");
 
     this
-        ->debug_with_guard(get_typename()
+        ->trace_with_guard(get_typename()
         + " Lock the object of synchronyzer...");
 
     std::lock_guard<std::mutex> lock(other.obtain_synchronizer());
@@ -146,11 +146,23 @@ allocator_sorted_list::allocator_sorted_list(
 
     std::lock_guard<std::mutex> lock(obtain_synchronizer());
 
+    this
+        ->trace_with_guard(get_typename()
+        + " Lock the object of synchronyzer...");
+
     throw_if_allocator_instance_state_was_moved();
+
+    this
+        ->trace_with_guard(get_typename()
+        + " Lock the object of synchronyzer...");
 
     void *target_block = nullptr, *previous_to_target_block = nullptr;
     size_t requested_size = value_size * values_count + ancillary_block_metadata_size();
     size_t target_block_size;
+
+    this
+        ->trace_with_guard(get_typename()
+        + " Was requested the " + std::to_string(requested_size) + " bytes...");
 
     {
         void *current_block, *previous_block = nullptr;
@@ -219,6 +231,10 @@ allocator_sorted_list::allocator_sorted_list(
         // TODO: user request was redefined
         requested_size = target_block_size;
     }
+
+    this
+        ->trace_with_guard(get_typename()
+        + " The target block was finded with size of " + std::to_string(target_block_size) + " bytes...");
 
     *(previous_to_target_block != nullptr
         ? reinterpret_cast<void**>(previous_to_target_block)
@@ -425,7 +441,10 @@ size_t& allocator_sorted_list::obtain_available_block_size(
 
 allocator_with_fit_mode::fit_mode& allocator_sorted_list::obtain_fit_mode() const
 {
-    return *reinterpret_cast<allocator_with_fit_mode::fit_mode*>(reinterpret_cast<unsigned char*>(_trusted_memory) + sizeof(allocator*) + sizeof(logger*) + sizeof(std::mutex));
+    return *reinterpret_cast<allocator_with_fit_mode::fit_mode*>(reinterpret_cast<unsigned char*>(_trusted_memory) 
+        + sizeof(allocator*) 
+        + sizeof(logger*) 
+        + sizeof(std::mutex));
 }
 
 void allocator_sorted_list::throw_if_allocator_instance_state_was_moved() const
