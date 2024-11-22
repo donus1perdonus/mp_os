@@ -80,7 +80,7 @@
             "program": "${workspaceFolder}/build/allocator/allocator_boundary_tags/tests/mp_os_allctr_allctr_bndr_tgs_tests",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/allocator/allocator_sorted_list/tests",
+            "cwd": "${workspaceFolder}/allocator/allocator_boundary_tags/tests",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",

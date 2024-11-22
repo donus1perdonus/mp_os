@@ -10,23 +10,27 @@ logger *create_logger(
     bool use_console_stream = true,
     logger::severity console_stream_severity = logger::severity::debug)
 {
-    logger_builder *logger_builder_instance = new client_logger_builder;
+    logger_builder *builder = new client_logger_builder();
     
     if (use_console_stream)
     {
-        logger_builder_instance->add_console_stream(console_stream_severity);
+        builder
+            ->add_console_stream(console_stream_severity)
+            ->set_format("%d %t %s %m");
     }
     
     for (auto &output_file_stream_setup: output_file_streams_setup)
     {
-        logger_builder_instance->add_file_stream(output_file_stream_setup.first, output_file_stream_setup.second);
+        builder
+            ->add_file_stream(output_file_stream_setup.first, output_file_stream_setup.second)
+            ->set_format("%d %t %s %m");
     }
     
-    logger *logger_instance = logger_builder_instance->build();
+    logger *built_logger = builder->build();
     
-    delete logger_builder_instance;
+    delete builder;
     
-    return logger_instance;
+    return built_logger;
 }
 
 TEST(positiveTests, test1)
@@ -36,6 +40,14 @@ TEST(positiveTests, test1)
             {
                 "allocator_boundary_tags_tests_logs_positive_test_plain_usage.txt",
                 logger::severity::information
+            },
+            {
+                "allocator_boundary_tags_tests_logs_positive_test_plain_usage.txt",
+                logger::severity::trace
+            },
+            {
+                "allocator_boundary_tags_tests_logs_positive_test_plain_usage.txt",
+                logger::severity::debug
             }
         });
     allocator *subject = new allocator_boundary_tags(sizeof(int) * 40, nullptr, logger, allocator_with_fit_mode::fit_mode::first_fit);
@@ -74,6 +86,14 @@ TEST(positiveTests, test2)
             {
                 "allocator_boundary_tags_tests_logs_false_positive_test_1.txt",
                 logger::severity::information
+            },
+            {
+                "allocator_boundary_tags_tests_logs_false_positive_test_1.txt",
+                logger::severity::trace
+            },
+            {
+                "allocator_boundary_tags_tests_logs_false_positive_test_1.txt",
+                logger::severity::debug
             }
         });
     allocator *allocator_instance = new allocator_boundary_tags(sizeof(unsigned char) * 3000, nullptr, logger_instance, allocator_with_fit_mode::fit_mode::first_fit);
@@ -110,6 +130,14 @@ TEST(falsePositiveTests, test1)
             {
                 "allocator_boundary_tags_tests_logs_false_positive_test_2.txt",
                 logger::severity::information
+            },
+            {
+                "allocator_boundary_tags_tests_logs_false_positive_test_2.txt",
+                logger::severity::debug
+            },
+            {
+                "allocator_boundary_tags_tests_logs_false_positive_test_2.txt",
+                logger::severity::trace
             }
         });
     allocator *allocator_instance = new allocator_boundary_tags(3000, nullptr, logger_instance, allocator_with_fit_mode::fit_mode::first_fit);
