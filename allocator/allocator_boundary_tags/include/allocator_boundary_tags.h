@@ -24,12 +24,6 @@ public:
     ~allocator_boundary_tags() override;
     
     allocator_boundary_tags(
-        allocator_boundary_tags const &other);
-    
-    allocator_boundary_tags &operator=(
-        allocator_boundary_tags const &other);
-    
-    allocator_boundary_tags(
         allocator_boundary_tags &&other) noexcept;
     
     allocator_boundary_tags &operator=(
@@ -85,18 +79,10 @@ private:
 
     std::mutex& obtain_synchronizer() const;
 
-    void*& obtain_first_available_block_address_byref() const;
-
-    void** obtain_first_available_block_address_byptr() const;
-
-    static void *&obtain_allocator_trusted_memory_ancillary_block_owner(
-        void *current_ancillary_block_address);
+    void*& obtain_available_block_address() const;
 
     static size_t &obtain_ancillary_block_size(
         void *current_ancillary_block_address);
-
-    static void*& obtain_next_available_block_address(
-        void* current_available_block_address);
 
     static size_t& obtain_available_block_size(
         void* current_available_block_address);
@@ -104,6 +90,15 @@ private:
     allocator_with_fit_mode::fit_mode& obtain_fit_mode() const;
 
     inline void throw_if_allocator_instance_state_was_moved() const;
+
+private:
+
+    constexpr size_t obtain_global_metadata_size() const;
+
+    constexpr size_t obtain_block_metadata_size() const;
+
+    void set_block_metadata(unsigned char *placement, size_t space_size, bool is_free);
+
 };
 
 #endif //MATH_PRACTICE_AND_OPERATING_SYSTEMS_ALLOCATOR_ALLOCATOR_BOUNDARY_TAGS_H
