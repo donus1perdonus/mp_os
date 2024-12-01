@@ -7,6 +7,8 @@
 #include <logger_guardant.h>
 #include <typename_holder.h>
 
+using byte = unsigned char;
+
 class allocator_boundary_tags final:
     private allocator_guardant,
     public allocator_test_utils,
@@ -22,6 +24,12 @@ private:
 public:
     
     ~allocator_boundary_tags() override;
+    
+    allocator_boundary_tags(
+        allocator_boundary_tags const &other) = delete;
+    
+    allocator_boundary_tags &operator=(
+        allocator_boundary_tags const &other) = delete;
     
     allocator_boundary_tags(
         allocator_boundary_tags &&other) noexcept;
@@ -69,36 +77,31 @@ private:
 
 private:
 
-    size_t &obtain_trusted_memory_size() const;
+    static constexpr size_t obtain_global_metadata_size();
+    static constexpr size_t obtain_block_metadata_size();
 
-    static size_t constexpr common_metadata_size();
+    static constexpr size_t get_trusted_memory_shift();
+    static constexpr size_t get_logger_shift();
+    static constexpr size_t get_allocator_shift();
+    static constexpr size_t get_fitmode_shift();
+    static constexpr size_t get_mutex_shift();
+    static constexpr size_t get_first_block_shift();
 
-    static size_t constexpr available_block_metadata_size();
+    static constexpr size_t get_tm_ptr_shift();
+    static constexpr size_t get_status_of_block_shift();
+    static constexpr size_t get_size_of_block_shift();
 
-    static size_t constexpr ancillary_block_metadata_size();
+    void initialize_block_metadata(byte *, size_t, bool);
 
-    std::mutex& obtain_synchronizer() const;
+    void *allocate_first_fit(size_t);
+    void *allocate_best_fit(size_t);
+    void *allocate_worst_fit(size_t);
 
-    void*& obtain_available_block_address() const;
+    void *allocate_block(void *, size_t);
+    void *allocate_full_block(void *);
 
-    static size_t &obtain_ancillary_block_size(
-        void *current_ancillary_block_address);
-
-    static size_t& obtain_available_block_size(
-        void* current_available_block_address);
-
-    allocator_with_fit_mode::fit_mode& obtain_fit_mode() const;
-
-    inline void throw_if_allocator_instance_state_was_moved() const;
-
-private:
-
-    constexpr size_t obtain_global_metadata_size() const;
-
-    constexpr size_t obtain_block_metadata_size() const;
-
-    void set_block_metadata(unsigned char *placement, size_t space_size, bool is_free);
-
+    byte *find_first_free_block(size_t) const;
+    
 };
 
 #endif //MATH_PRACTICE_AND_OPERATING_SYSTEMS_ALLOCATOR_ALLOCATOR_BOUNDARY_TAGS_H

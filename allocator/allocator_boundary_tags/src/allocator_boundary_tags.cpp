@@ -1,73 +1,52 @@
-/*
-Аллокатор запрашивает память вместе с метаданными, а не занимает память у блока.
-
-Во всех функциях для работы с блоками на вход подаётся адрес на первый тег в метаданных (флаг занятости).
-*/
-
-#include <mutex>
-
 #include <not_implemented.h>
 
 #include "../include/allocator_boundary_tags.h"
-#include "allocator_boundary_tags.h"
+
+#include <mutex>
 
 allocator_boundary_tags::~allocator_boundary_tags()
 {
-    if (_trusted_memory == nullptr)
+    if(_trusted_memory == nullptr)
+    {
+        return;
+    }
+    destruct(reinterpret_cast<std::mutex *>(reinterpret_cast<byte *>(_trusted_memory) + get_mutex_shift()));
+
+    if(get_allocator() == nullptr)
+    {
+        ::operator delete(_trusted_memory);
+    }
+    else 
+    {
+        get_allocator()->deallocate(_trusted_memory);
+    }
+
+    _trusted_memory = nullptr;
+}
+
+allocator_boundary_tags::allocator_boundary_tags(
+    allocator_boundary_tags &&other) noexcept :
+    _trusted_memory(nullptr)
+{
+    if(other._trusted_memory == nullptr)
     {
         return;
     }
 
-    // obtain_synchronizer().~mutex();
-    allocator::destruct(&obtain_synchronizer());
-
-    this
-        ->debug_with_guard(get_typename() 
-        + " Destruct the object of mutex...");
-
-    this
-        //->information_with_guard("...")
-        //->warning_with_guard("...")
-        ->debug_with_guard(get_typename() 
-        + " Destruct the object of allocator sorted list...");
-
-    deallocate_with_guard(_trusted_memory);
-}
-
-allocator_boundary_tags::allocator_boundary_tags(
-    allocator_boundary_tags &&other) noexcept
-{
-    this
-        ->debug_with_guard(get_typename()
-        + " Call of overloaded move constructor...");
+    std::lock_guard<std::mutex> locker(*reinterpret_cast<std::mutex *>(reinterpret_cast<byte *>(other._trusted_memory) + get_mutex_shift()));
 
     _trusted_memory = other._trusted_memory;
-
-    this
-        ->debug_with_guard(get_typename()
-        + " Lock the object of synchronyzer...");
-
-    std::lock_guard<std::mutex> lock(other.obtain_synchronizer());
-
-    other._trusted_memory = nullptr;  
+    other._trusted_memory = nullptr;
 }
 
 allocator_boundary_tags &allocator_boundary_tags::operator=(
     allocator_boundary_tags &&other) noexcept
 {
-    this
-        ->debug_with_guard(get_typename()
-        + " Call of overloaded move operator=...");
-
-    this
-        ->debug_with_guard(get_typename()
-        + " Lock the object of synchronyzer...");
-
-    std::lock_guard<std::mutex> lock(other.obtain_synchronizer());
-
-    if (this != &other)
+    if(this != &other) 
     {
-        deallocate_with_guard(_trusted_memory);
+        std::lock_guard<std::mutex> locker(*reinterpret_cast<std::mutex *>(reinterpret_cast<byte *>(other._trusted_memory) + get_mutex_shift()));
+
+        this->~allocator_boundary_tags();
 
         _trusted_memory = other._trusted_memory;
 
@@ -81,62 +60,36 @@ allocator_boundary_tags::allocator_boundary_tags(
     size_t space_size,
     allocator *parent_allocator,
     logger *logger,
-    allocator_with_fit_mode::fit_mode allocate_fit_mode)
+    allocator_with_fit_mode::fit_mode allocate_fit_mode) :
+    _trusted_memory(nullptr)
 {
-    if (space_size < obtain_global_metadata_size() + obtain_block_metadata_size())
+    size_t fullSize = obtain_global_metadata_size() + space_size + (2 * obtain_block_metadata_size());
+    try 
     {
-        throw std::logic_error("Can't initialize allocator instance");
+        _trusted_memory = 
+            parent_allocator == nullptr 
+            ? ::operator new(fullSize) 
+            : parent_allocator->allocate(1, fullSize);
     }
-
-    size_t memory_size = space_size + obtain_global_metadata_size() + obtain_block_metadata_size();
-
-    try
+    catch (std::bad_alloc const &e) 
     {
-        _trusted_memory = parent_allocator == nullptr
-                          ? ::operator new (memory_size)
-                          : parent_allocator->allocate(1, memory_size);
+        throw e;
     }
-    catch (std::bad_alloc const& ex)
-    {
-        throw;
-    }
+    byte *ptr = reinterpret_cast<byte *>(_trusted_memory);
+    *reinterpret_cast<size_t *>(ptr + get_trusted_memory_shift()) = fullSize;
+    *reinterpret_cast<class logger **>(ptr + get_logger_shift()) = logger;
+    *reinterpret_cast<allocator **>(ptr + get_allocator_shift()) = parent_allocator;
+    *reinterpret_cast<allocator_with_fit_mode::fit_mode *>(ptr + get_fitmode_shift()) = allocate_fit_mode;
+    construct(reinterpret_cast<std::mutex *>(ptr + get_mutex_shift()));
+    ptr += get_first_block_shift();
+    initialize_block_metadata(ptr, fullSize - obtain_global_metadata_size(), false);
+    ptr += space_size + obtain_block_metadata_size();
+    initialize_block_metadata(ptr, fullSize - obtain_global_metadata_size(), false);
 
-    allocator** parent_allocator_placement = reinterpret_cast<allocator**>(_trusted_memory);
-    *parent_allocator_placement = parent_allocator;
-    std::cout << parent_allocator_placement << std::endl;
-
-    class logger** logger_placement = reinterpret_cast<class logger**>(parent_allocator_placement + 1);
-    *logger_placement = logger;
-    std::cout << logger_placement << std::endl;
-
-    std::mutex* synchronizer_placement = reinterpret_cast<std::mutex*>(logger_placement + 1);
-    allocator::construct(synchronizer_placement);
-    std::cout << synchronizer_placement << std::endl;
-
-    unsigned char* placement = reinterpret_cast<unsigned char*>(synchronizer_placement);
-
-    placement += sizeof(std::mutex);
-    *reinterpret_cast<allocator_with_fit_mode::fit_mode*>(placement) = allocate_fit_mode;
-    std::cout << sizeof(std::mutex) << " "<< reinterpret_cast<void*>(placement) << std::endl;
-
-    placement += sizeof(allocator_with_fit_mode::fit_mode);
-    *reinterpret_cast<size_t*>(placement) = space_size;
-    std::cout << sizeof(allocator_with_fit_mode::fit_mode) << " " << reinterpret_cast<void*>(placement) << std::endl;
-
-    placement += sizeof(size_t);
-
-    set_block_metadata(placement, space_size, true);
-
-    this
-        ->debug_with_guard(get_typename() 
-        + " The object of allocator was created with memory: "
-        + std::to_string(memory_size)
-        + " bytes");
-
-    this
-        ->information_with_guard(get_typename()
-        + "The avaliable size of allocator memory is " 
-        + std::to_string(space_size)
+    this->
+        debug_with_guard(get_typename()
+        + " The object of allocator was created with "
+        + std::to_string(fullSize)
         + " bytes");
 }
 
@@ -145,188 +98,425 @@ allocator_boundary_tags::allocator_boundary_tags(
     size_t values_count)
 {
     this->
-        debug_with_guard(get_typename() 
-        + " Call of the allocate...");
+        debug_with_guard(get_typename()
+        + " Call of allocate...");
 
-    this->
-        information_with_guard(get_typename()
-        + " Request the block with size: "
-        + std::to_string(value_size * values_count)
-        + " bytes");
-
-    std::lock_guard<std::mutex> lock(obtain_synchronizer());
-
+    if(_trusted_memory == nullptr) 
+    {
+        error_with_guard(" The trusted memory is nullptr!");
+        throw std::bad_alloc();
+    }
     this->
         trace_with_guard(get_typename()
-        + " Lock the object of synchronyzer...");
+        + " Lock the mutex...");
+    std::lock_guard<std::mutex> locker(*reinterpret_cast<std::mutex *>(reinterpret_cast<byte *>(_trusted_memory) + get_mutex_shift()));
 
-    throw_if_allocator_instance_state_was_moved();
-
-    void *target_block = nullptr, *previous_to_target_block = nullptr;
-    size_t requested_size = (value_size * values_count) + obtain_block_metadata_size();
-    size_t target_block_size;
-
+    auto sizeOfNewBlock = (value_size * values_count) + (2 * obtain_block_metadata_size());
+    auto fitMode = reinterpret_cast<allocator_with_fit_mode::fit_mode *>(reinterpret_cast<byte *>(_trusted_memory) + get_fitmode_shift());
+    void *res = nullptr;
+    try 
     {
-        void *current_block, *previous_block = nullptr;
-        current_block = obtain_available_block_address();
-        allocator_with_fit_mode::fit_mode fit_mode = obtain_fit_mode();
-
-        while (current_block != nullptr)
+        switch(static_cast<int>(*fitMode)) 
         {
-            size_t current_block_size = obtain_available_block_size(current_block);
-
-            if (current_block_size >= requested_size && (
-                fit_mode == allocator_with_fit_mode::fit_mode::first_fit ||
-                (fit_mode == allocator_with_fit_mode::fit_mode::the_best_fit &&
-                 (target_block == nullptr || current_block_size < target_block_size)) ||
-                (fit_mode == allocator_with_fit_mode::fit_mode::the_worst_fit &&
-                 (target_block == nullptr || current_block_size > target_block_size))))
-            {
-                target_block = current_block;
-                previous_to_target_block = previous_block;
-                target_block_size = current_block_size;
-
-                if (fit_mode == allocator_with_fit_mode::fit_mode::first_fit)
-                {
-                    break;
-                }
-            }
-
-            previous_block = current_block;
-            current_block = obtain_available_block_address();
+            case 0:
+                this->
+                    trace_with_guard(get_typename()
+                    + " Allocate with first fit...");
+                res = allocate_first_fit(sizeOfNewBlock);
+                break;
+            case 1:
+                this->
+                    trace_with_guard(get_typename()
+                    + " Allocate with best fit...");
+                res = allocate_best_fit(sizeOfNewBlock);
+                break;
+            case 2:
+                this->
+                    trace_with_guard(get_typename()
+                    + " Allocate with worst fit...");
+                res = allocate_worst_fit(sizeOfNewBlock);
+                break;
+            default:
+                this->
+                    error_with_guard(get_typename()
+                    + " Invalid fit type!");
+                throw std::logic_error("Invalid fit type!");
         }
     }
+    catch (std::bad_alloc const &e) 
+    {
+        this->
+            error_with_guard(get_typename() 
+            + e.what());
+        throw e;
+    }
+
+    this->
+        debug_with_guard(get_typename()
+        + " Allocate the block with size "
+        + std::to_string(sizeOfNewBlock)
+        + " bytes");
+
+    return res;
 }
 
 void allocator_boundary_tags::deallocate(
     void *at)
 {
-    throw not_implemented("void allocator_boundary_tags::deallocate(void *)", "your code should be here...");
+    if(_trusted_memory == nullptr) 
+    {
+        throw std::logic_error("Allocator is empty");
+    }
+
+    this->
+        debug_with_guard(get_typename()
+        + " Call of deallocate...");
+
+    if(at == nullptr) 
+    {
+        return;
+    }
+    if(at < reinterpret_cast<byte *>(_trusted_memory) + obtain_global_metadata_size() ||
+        at > reinterpret_cast<byte *>(_trusted_memory) + *reinterpret_cast<size_t *>(reinterpret_cast<byte *>(_trusted_memory) + get_trusted_memory_shift()))
+    {
+        this->
+            error_with_guard(get_typename()
+            + " Pointer is not contained in trusted memory");
+        throw std::logic_error("Pointer is not contained in trusted memory");
+    }
+
+    at = reinterpret_cast<byte *>(at) - obtain_block_metadata_size();
+
+    if(*reinterpret_cast<void **>(reinterpret_cast<byte *>(at) + get_tm_ptr_shift()) != _trusted_memory) 
+    {
+        this->
+            error_with_guard(get_typename()
+            + " Pointer is not contained in that allocator");
+        throw std::logic_error("Pointer is not contained in that allocator");
+    }
+
+    this->
+        trace_with_guard(get_typename()
+        + " Lock the mutex...");
+    std::lock_guard<std::mutex> locker(*reinterpret_cast<std::mutex *>(reinterpret_cast<byte *>(_trusted_memory) + get_mutex_shift()));
+
+    auto sizeOfAt = *reinterpret_cast<size_t *>(reinterpret_cast<byte *>(at) + get_size_of_block_shift());
+
+    if(!*reinterpret_cast<bool *>(reinterpret_cast<byte *>(at) - obtain_block_metadata_size() + get_status_of_block_shift()) && at != reinterpret_cast<byte *>(_trusted_memory) + get_first_block_shift()) 
+    {
+        //Перед новым стоит свободный
+        //Взяли размер предыдущего
+        auto sizeOfPrevBlock = *reinterpret_cast<size_t *>(reinterpret_cast<byte *>(at) - obtain_block_metadata_size() + get_size_of_block_shift());
+        //Поставили at на предыдущий
+        at = reinterpret_cast<byte *>(at) - sizeOfPrevBlock;
+        //К размеру предыдщего добавили наш
+        *reinterpret_cast<size_t *>(reinterpret_cast<byte *>(at) + get_size_of_block_shift()) += sizeOfAt;
+        sizeOfAt = *reinterpret_cast<size_t *>(reinterpret_cast<byte *>(at) + get_size_of_block_shift());
+        //Пометили нашу страую мету свободной
+        *reinterpret_cast<bool *>(reinterpret_cast<byte *>(at) + sizeOfAt - obtain_block_metadata_size() + get_status_of_block_shift()) = false;
+        //Положили в старую мету новый размер
+        *reinterpret_cast<size_t *>(reinterpret_cast<byte *>(at) + sizeOfAt - obtain_block_metadata_size() + get_size_of_block_shift()) = sizeOfAt;
+    } 
+    else 
+    {
+        //Если справа нет свободного блока
+        //Пометили обе меты свободными
+        *reinterpret_cast<bool *>(reinterpret_cast<byte *>(at) + get_status_of_block_shift()) = false;
+        *reinterpret_cast<bool *>(reinterpret_cast<byte *>(at) + sizeOfAt - obtain_block_metadata_size() + get_status_of_block_shift()) = false;
+    }
+    if(!*reinterpret_cast<bool *>(reinterpret_cast<byte *>(at) + sizeOfAt + get_status_of_block_shift()) && (reinterpret_cast<byte *>(at) + sizeOfAt) != (reinterpret_cast<byte *>(_trusted_memory) + *reinterpret_cast<size_t *>(reinterpret_cast<byte *>(_trusted_memory) + get_trusted_memory_shift()))) {
+        //За новым стоит совбодный
+        //Взяли размер следующего блока
+        auto sizeOfNextBlock = *reinterpret_cast<size_t *>(reinterpret_cast<byte *>(at) + sizeOfAt + get_size_of_block_shift());
+        //К нашему размеру добавили размер следующего
+        sizeOfAt = *reinterpret_cast<size_t *>(reinterpret_cast<byte *>(at) + get_size_of_block_shift()) += sizeOfNextBlock;
+        //Кладём новый размер в правую мету
+        *reinterpret_cast<size_t *>(reinterpret_cast<byte *>(at) + sizeOfAt - obtain_block_metadata_size() + get_size_of_block_shift()) = sizeOfAt;
+    }
+    //Тут else не нужен тк в предыдущем наш блок пометился свободным
+
+    this->
+        debug_with_guard(get_typename()
+        + " Deallocate the block with size "
+        + std::to_string(sizeOfAt)
+        + " bytes");
 }
 
 inline void allocator_boundary_tags::set_fit_mode(
     allocator_with_fit_mode::fit_mode mode)
 {
-    std::lock_guard<std::mutex> lock(obtain_synchronizer());
+    if(_trusted_memory == nullptr) 
+    {
+        return;
+    }
 
-    obtain_fit_mode() = mode;
+    this->
+        trace_with_guard(get_typename()
+        + " Set fit mode...");
+
+    std::lock_guard<std::mutex> locker(*reinterpret_cast<std::mutex *>(reinterpret_cast<byte *>(_trusted_memory) + get_mutex_shift()));
+    
+    *reinterpret_cast<allocator_with_fit_mode::fit_mode *>(reinterpret_cast<byte *>(_trusted_memory) + get_fitmode_shift()) = mode;
 }
 
 inline allocator *allocator_boundary_tags::get_allocator() const
 {
-    return *reinterpret_cast<allocator**>(_trusted_memory);
+    if(_trusted_memory == nullptr)
+    {
+        return nullptr;
+    }
+
+    return *reinterpret_cast<allocator **>(
+        reinterpret_cast<byte *>(_trusted_memory) + get_allocator_shift());
 }
 
 std::vector<allocator_test_utils::block_info> allocator_boundary_tags::get_blocks_info() const noexcept
 {
-    throw not_implemented("std::vector<allocator_test_utils::block_info> allocator_boundary_tags::get_blocks_info() const noexcept", "your code should be here...");
+    std::vector<allocator_test_utils::block_info> result;
+    if(_trusted_memory == nullptr)
+    { 
+        return result;
+    }
+
+    byte *pNow = reinterpret_cast<byte *>(_trusted_memory) + get_first_block_shift(),
+        *pLast = reinterpret_cast<byte *>(_trusted_memory) + *reinterpret_cast<size_t *>(reinterpret_cast<byte *>(_trusted_memory) + get_trusted_memory_shift());
+
+    while(reinterpret_cast<void *>(pNow) < reinterpret_cast<void *>(pLast)) 
+    {
+        result.push_back(allocator_test_utils::block_info
+            {
+            *reinterpret_cast<size_t *>(pNow + get_size_of_block_shift()), 
+            *reinterpret_cast<bool *>(pNow + get_status_of_block_shift())
+            });
+
+        pNow += *reinterpret_cast<size_t *>(pNow + get_size_of_block_shift());
+    }
+
+    return result;
 }
 
 inline logger *allocator_boundary_tags::get_logger() const
 {
-    return *(reinterpret_cast<logger**>(&obtain_synchronizer()) - 1);
+    if(_trusted_memory == nullptr)
+    {
+        return nullptr;
+    }
+
+    return *reinterpret_cast<logger **>(
+        reinterpret_cast<byte *>(_trusted_memory) + get_logger_shift());
 }
 
 inline std::string allocator_boundary_tags::get_typename() const noexcept
 {
-    return "[allocator_boundary_tags]";
+    return ("[allocator_boundary_tags]");
 }
 
-size_t &allocator_boundary_tags::obtain_trusted_memory_size() const
+//--------------------------------------------------------------------------
+
+constexpr size_t allocator_boundary_tags::obtain_global_metadata_size() 
 {
-    return *reinterpret_cast<size_t *>(&obtain_fit_mode() + 1);
+    return sizeof(size_t) + sizeof(logger *) + sizeof(allocator *) + sizeof(allocator_with_fit_mode::fit_mode) + sizeof(std::mutex);
 }
 
-size_t constexpr allocator_boundary_tags::common_metadata_size()
+constexpr size_t allocator_boundary_tags::obtain_block_metadata_size() 
 {
-    return sizeof(allocator*) + sizeof(std::mutex) + sizeof(logger*) + sizeof(allocator_with_fit_mode::fit_mode) + sizeof(size_t) + sizeof(void*);
+    return sizeof(bool) + sizeof(size_t) + sizeof(void *);
 }
 
-size_t constexpr allocator_boundary_tags::available_block_metadata_size()
+constexpr size_t allocator_boundary_tags::get_trusted_memory_shift() 
 {
-    return sizeof(size_t) + sizeof(void*);
+    return 0;
 }
 
-size_t constexpr allocator_boundary_tags::ancillary_block_metadata_size()
+constexpr size_t allocator_boundary_tags::get_logger_shift() 
 {
-    // return sizeof(size_t) + sizeof(void *);
-    return sizeof(block_size_t) + sizeof(void*);
+    return get_trusted_memory_shift() + sizeof(size_t);
 }
 
-std::mutex& allocator_boundary_tags::obtain_synchronizer() const
+constexpr size_t allocator_boundary_tags::get_allocator_shift() 
 {
-    return *reinterpret_cast<std::mutex*>(const_cast<unsigned char*>(reinterpret_cast<unsigned char const*>(_trusted_memory) + sizeof(allocator*) + sizeof(logger*)));
+    return get_logger_shift() + sizeof(logger *);
 }
 
-void*& allocator_boundary_tags::obtain_available_block_address() const
+constexpr size_t allocator_boundary_tags::get_fitmode_shift() 
 {
-    unsigned char* target_block = reinterpret_cast<unsigned char*>(_trusted_memory) + obtain_global_metadata_size(); // obtain first block metadata
+    return get_allocator_shift() + sizeof(allocator *);
+}
 
-    while (!(*reinterpret_cast<bool*>(target_block)))
+constexpr size_t allocator_boundary_tags::get_mutex_shift() 
+{
+    return get_fitmode_shift() + sizeof(allocator_with_fit_mode::fit_mode);
+}
+
+constexpr size_t allocator_boundary_tags::get_first_block_shift() 
+{
+    return get_mutex_shift() + sizeof(std::mutex);
+}
+
+constexpr size_t allocator_boundary_tags::get_tm_ptr_shift() 
+{
+    return 0;
+}
+
+constexpr size_t allocator_boundary_tags::get_status_of_block_shift() 
+{
+    return sizeof(void *);
+}
+
+constexpr size_t allocator_boundary_tags::get_size_of_block_shift() 
+{
+    return get_status_of_block_shift() + sizeof(bool);
+}
+
+void allocator_boundary_tags::initialize_block_metadata(byte *ptr, size_t sizeOfBlock, bool statusOfBlock) 
+{
+    *reinterpret_cast<void **>(ptr + get_tm_ptr_shift()) = _trusted_memory;
+    *reinterpret_cast<bool *>(ptr + get_status_of_block_shift()) = statusOfBlock;
+    *reinterpret_cast<size_t *>(ptr + get_size_of_block_shift()) = sizeOfBlock;
+}
+
+void *allocator_boundary_tags::allocate_first_fit(size_t sizeOfNewBlock) 
+{
+    byte *curentBlock = reinterpret_cast<byte *>(_trusted_memory) + get_first_block_shift(),
+         *lastPtr = reinterpret_cast<byte *>(_trusted_memory) + *reinterpret_cast<size_t *>(reinterpret_cast<byte *>(_trusted_memory) + get_trusted_memory_shift());
+    
+    while(curentBlock < lastPtr) 
     {
-        target_block += 
-            *(reinterpret_cast<size_t*>(reinterpret_cast<unsigned char*>(target_block) + sizeof(bool) + sizeof(void*))) + obtain_block_metadata_size();
+        auto sizeOfBlock = *reinterpret_cast<size_t *>(curentBlock + get_size_of_block_shift());
+
+        if(!*reinterpret_cast<bool *>(curentBlock + get_status_of_block_shift())) 
+        {
+            if(sizeOfBlock == sizeOfNewBlock) return allocate_full_block(curentBlock);
+            if(sizeOfBlock > sizeOfNewBlock) return allocate_block(curentBlock, sizeOfNewBlock);
+        }
+
+        curentBlock += sizeOfBlock;
     }
 
-    return *reinterpret_cast<void**>(target_block);
+    this->
+        error_with_guard(get_typename()
+        + " Can not find the available block");
+    throw std::bad_alloc();
 }
 
-size_t &allocator_boundary_tags::obtain_ancillary_block_size(
-    void *current_ancillary_block_address)
+void *allocator_boundary_tags::allocate_best_fit(size_t sizeOfBlock) 
 {
-    return *reinterpret_cast<size_t *>(reinterpret_cast<void **>(current_ancillary_block_address) + 1);
-}
-
-size_t& allocator_boundary_tags::obtain_available_block_size(
-    void* current_available_block_address)
-{
-    return *reinterpret_cast<size_t*>(reinterpret_cast<unsigned char*>(current_available_block_address) + sizeof(bool) + sizeof(void*));
-}
-
-allocator_with_fit_mode::fit_mode& allocator_boundary_tags::obtain_fit_mode() const
-{
-    return *reinterpret_cast<allocator_with_fit_mode::fit_mode*>(reinterpret_cast<unsigned char*>(_trusted_memory) + sizeof(allocator*) + sizeof(logger*) + sizeof(std::mutex));
-}
-
-void allocator_boundary_tags::throw_if_allocator_instance_state_was_moved() const
-{
-    if (_trusted_memory == nullptr)
+    byte *bestBlock = find_first_free_block(sizeOfBlock),
+    *currentBlock = reinterpret_cast<byte *>(_trusted_memory) + get_first_block_shift(),
+    *pLast = reinterpret_cast<byte *>(_trusted_memory) + *reinterpret_cast<size_t *>(reinterpret_cast<byte *>(_trusted_memory) + get_trusted_memory_shift());
+    if(bestBlock == nullptr) 
     {
         this->
-            error_with_guard(get_typename() 
-            + " Allocator instance state was moved :/");
-
-        throw std::logic_error("Allocator instance state was moved :/");
+            error_with_guard(get_typename()
+            + " Can not find the available block");
+        throw std::bad_alloc();
     }
+    if(*reinterpret_cast<size_t *>(bestBlock + get_size_of_block_shift()) == sizeOfBlock) return allocate_full_block(bestBlock);
+
+    while(currentBlock < pLast) 
+    {
+        if(!*reinterpret_cast<bool *>(currentBlock + get_status_of_block_shift())) 
+        {
+            if(*reinterpret_cast<size_t *>(bestBlock + get_size_of_block_shift()) > *reinterpret_cast<size_t *>(currentBlock + get_size_of_block_shift())) 
+            {
+                bestBlock = currentBlock;
+            }
+        }
+        currentBlock += *reinterpret_cast<size_t *>(currentBlock + get_size_of_block_shift());
+    }
+    return allocate_block(bestBlock, sizeOfBlock);
 }
 
-constexpr size_t allocator_boundary_tags::obtain_global_metadata_size() const
+void *allocator_boundary_tags::allocate_worst_fit(size_t sizeOfBlock) 
 {
-    return sizeof(allocator*) + sizeof(std::mutex) + sizeof(logger*) + sizeof(allocator_with_fit_mode::fit_mode) + sizeof(size_t);
+    byte *bestBlock = find_first_free_block(sizeOfBlock),
+    *currentBlock = reinterpret_cast<byte *>(_trusted_memory) + get_first_block_shift(),
+    *pLast = reinterpret_cast<byte *>(_trusted_memory) + *reinterpret_cast<size_t *>(reinterpret_cast<byte *>(_trusted_memory) + get_trusted_memory_shift());
+    if(bestBlock == nullptr) 
+    {
+        this->
+            error_with_guard(get_typename()
+            + " Can not find the available block");
+        throw std::bad_alloc();
+    }
+    if(*reinterpret_cast<size_t *>(bestBlock + get_size_of_block_shift()) == sizeOfBlock) 
+    {
+        return allocate_full_block(bestBlock);
+    }
+    while(currentBlock < pLast) 
+    {
+        if(!*reinterpret_cast<bool *>(currentBlock + get_status_of_block_shift())) 
+        {
+            if(*reinterpret_cast<size_t *>(bestBlock + get_size_of_block_shift()) < *reinterpret_cast<size_t *>(currentBlock + get_size_of_block_shift()))
+            {
+                bestBlock = currentBlock;
+            }
+        }
+        currentBlock += *reinterpret_cast<size_t *>(currentBlock + get_size_of_block_shift());
+    }
+    return allocate_block(bestBlock, sizeOfBlock);
 }
 
-constexpr size_t allocator_boundary_tags::obtain_block_metadata_size() const
+void *allocator_boundary_tags::allocate_block(void *block, size_t sizeOfNewBlock) 
 {
-    return (sizeof(size_t) + sizeof(bool) + sizeof(void*)) * 2;
+    byte *pBlock = reinterpret_cast<byte *>(block);
+    auto minSizeOfBlock = 2 * obtain_block_metadata_size(),
+    sizeOfBlock = *reinterpret_cast<size_t *>(pBlock + get_size_of_block_shift());
+    if(sizeOfBlock - sizeOfNewBlock < minSizeOfBlock)
+    {
+        return allocate_full_block(block);
+    }
+
+    *reinterpret_cast<void **>(pBlock + get_tm_ptr_shift()) = _trusted_memory;
+    *reinterpret_cast<bool *>(pBlock + get_status_of_block_shift()) = true;
+    *reinterpret_cast<size_t *>(pBlock + get_size_of_block_shift()) = sizeOfNewBlock;
+    auto resultPtr = pBlock + obtain_block_metadata_size();
+
+    pBlock += sizeOfNewBlock;
+
+    *reinterpret_cast<void **>((pBlock - obtain_block_metadata_size()) + get_tm_ptr_shift()) = _trusted_memory;
+    *reinterpret_cast<bool *>((pBlock - obtain_block_metadata_size()) + get_status_of_block_shift()) = true;
+    *reinterpret_cast<size_t *>((pBlock - obtain_block_metadata_size()) + get_size_of_block_shift()) = sizeOfNewBlock;
+
+    *reinterpret_cast<void **>(pBlock + get_tm_ptr_shift()) = _trusted_memory;
+    *reinterpret_cast<bool *>(pBlock + get_status_of_block_shift()) = false;
+    *reinterpret_cast<size_t *>(pBlock + get_size_of_block_shift()) = sizeOfBlock - sizeOfNewBlock;
+
+    pBlock += sizeOfBlock - sizeOfNewBlock - obtain_block_metadata_size();
+
+    *reinterpret_cast<void **>(pBlock + get_tm_ptr_shift()) = _trusted_memory;
+    *reinterpret_cast<bool *>(pBlock + get_status_of_block_shift()) = false;
+    *reinterpret_cast<size_t *>(pBlock + get_size_of_block_shift()) = sizeOfBlock - sizeOfNewBlock;
+    return resultPtr;
 }
 
-void allocator_boundary_tags::set_block_metadata(unsigned char *placement, size_t space_size, bool is_free)
+void *allocator_boundary_tags::allocate_full_block(void *block) 
 {
-    *reinterpret_cast<bool*>(placement) = is_free;
+    byte *pBlock = reinterpret_cast<byte *>(block);
+    *reinterpret_cast<bool *>(pBlock + get_status_of_block_shift()) = true;
+    auto secondMeta = pBlock + *reinterpret_cast<size_t *>(pBlock + get_size_of_block_shift()) - obtain_block_metadata_size();
 
-    placement += sizeof(bool);
-    *reinterpret_cast<void**>(placement) = _trusted_memory;
+    *reinterpret_cast<bool *>(secondMeta + get_status_of_block_shift()) = true;
+    *reinterpret_cast<void **>(pBlock + get_tm_ptr_shift()) = _trusted_memory;
+    *reinterpret_cast<void **>(secondMeta + get_tm_ptr_shift()) = _trusted_memory;
 
-    placement += sizeof(void*);
-    *reinterpret_cast<size_t*>(placement) = space_size;
+    return pBlock + obtain_block_metadata_size();
+}
 
-    placement += *reinterpret_cast<size_t*>(placement); // move to end of block to place metadata
+byte *allocator_boundary_tags::find_first_free_block(size_t sizeOfBlock) const 
+{
+    byte *currentBlock = reinterpret_cast<byte *>(_trusted_memory) + get_first_block_shift(),
+        *pLast = reinterpret_cast<byte *>(_trusted_memory) + *reinterpret_cast<size_t *>    (reinterpret_cast<byte *>(_trusted_memory) + get_trusted_memory_shift());
 
-    *reinterpret_cast<bool*>(placement) = is_free;
+    while(currentBlock < pLast) 
+    {
+        if(!*reinterpret_cast<bool *>(currentBlock + get_status_of_block_shift())) 
+        {
+            if(*reinterpret_cast<size_t *>(currentBlock + get_size_of_block_shift()) >= sizeOfBlock) return currentBlock;
+        }
 
-    placement += sizeof(bool);
-    *reinterpret_cast<void**>(placement) = _trusted_memory;
+        currentBlock += *reinterpret_cast<size_t *>(currentBlock + get_size_of_block_shift());
+    }
 
-    placement += sizeof(void*);
-    *reinterpret_cast<size_t*>(placement) = space_size;
+    return nullptr;
 }

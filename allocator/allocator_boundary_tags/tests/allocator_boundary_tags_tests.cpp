@@ -39,7 +39,7 @@ TEST(positiveTests, test1)
         {
             {
                 "allocator_boundary_tags_tests_logs_positive_test_plain_usage.txt",
-                logger::severity::information
+                logger::severity::error
             },
             {
                 "allocator_boundary_tags_tests_logs_positive_test_plain_usage.txt",
@@ -85,7 +85,7 @@ TEST(positiveTests, test2)
         {
             {
                 "allocator_boundary_tags_tests_logs_false_positive_test_1.txt",
-                logger::severity::information
+                logger::severity::error
             },
             {
                 "allocator_boundary_tags_tests_logs_false_positive_test_1.txt",
@@ -129,7 +129,7 @@ TEST(falsePositiveTests, test1)
         {
             {
                 "allocator_boundary_tags_tests_logs_false_positive_test_2.txt",
-                logger::severity::information
+                logger::severity::error
             },
             {
                 "allocator_boundary_tags_tests_logs_false_positive_test_2.txt",
