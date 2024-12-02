@@ -43,7 +43,7 @@ TEST(positiveTests, test1)
             },
             {
                 "allocator_boundary_tags_tests_logs_positive_test_plain_usage.txt",
-                logger::severity::trace
+                logger::severity::information
             },
             {
                 "allocator_boundary_tags_tests_logs_positive_test_plain_usage.txt",
@@ -89,7 +89,7 @@ TEST(positiveTests, test2)
             },
             {
                 "allocator_boundary_tags_tests_logs_false_positive_test_1.txt",
-                logger::severity::trace
+                logger::severity::information
             },
             {
                 "allocator_boundary_tags_tests_logs_false_positive_test_1.txt",
@@ -137,7 +137,7 @@ TEST(falsePositiveTests, test1)
             },
             {
                 "allocator_boundary_tags_tests_logs_false_positive_test_2.txt",
-                logger::severity::trace
+                logger::severity::information
             }
         });
     allocator *allocator_instance = new allocator_boundary_tags(3000, nullptr, logger_instance, allocator_with_fit_mode::fit_mode::first_fit);
