@@ -120,6 +120,36 @@
                 "isDefault": true
             },
             "problemMatcher": ["$gcc"]
+        },
+        {
+            "label": "build alc_bdds_sstm",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "-B",
+                "${workspaceFolder}/build/allocator/allocator_buddies_system/tests",
+                "-S",
+                "${workspaceFolder}/allocator/allocator_buddies_system/tests"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"]
+        },
+        {
+            "label": "build and run alc_bdds_sstm",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "${workspaceFolder}/build/allocator/allocator_buddies_system/tests"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"]
         }
     ]
 }
