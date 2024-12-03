@@ -1,6 +1,6 @@
-02.12.2024 22:15:36 DEBUG [allocator_boundary_tags] The object of allocator was created with 3070 bytes
-02.12.2024 22:15:36 DEBUG [allocator_boundary_tags] Attempt to allocate block with size: 3000 bytes
-02.12.2024 22:15:36 INFORMATION [allocator_boundary_tags] Free 3034 bytes -> 
-02.12.2024 22:15:36 INFORMATION [allocator_boundary_tags] Allocate with first fit...
-02.12.2024 22:15:36 INFORMATION [allocator_boundary_tags] Occupied 3034 bytes -> 
-02.12.2024 22:15:36 DEBUG [allocator_boundary_tags] Allocate the block with size 3034 bytes
+03.12.2024 20:02:39 DEBUG [allocator_boundary_tags] The object of allocator was created with 3070 bytes
+03.12.2024 20:02:39 DEBUG [allocator_boundary_tags] Attempt to allocate block with size: 3000 bytes
+03.12.2024 20:02:39 INFORMATION [allocator_boundary_tags] Free 3034 bytes -> 
+03.12.2024 20:02:39 INFORMATION [allocator_boundary_tags] Allocate with first fit...
+03.12.2024 20:02:39 INFORMATION [allocator_boundary_tags] Occupied 3034 bytes -> 
+03.12.2024 20:02:39 DEBUG [allocator_boundary_tags] Success allocate the block with size 3034 bytes

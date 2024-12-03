@@ -10,6 +10,11 @@ allocator_boundary_tags::~allocator_boundary_tags()
     {
         return;
     }
+
+    this->
+        debug_with_guard(get_typename()
+        + " Destruct the object...");
+
     destruct(reinterpret_cast<std::mutex *>(reinterpret_cast<byte *>(_trusted_memory) + get_mutex_shift()));
 
     if(get_allocator() == nullptr)
