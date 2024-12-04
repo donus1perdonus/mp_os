@@ -15,12 +15,16 @@ logger *create_logger(
     
     if (use_console_stream)
     {
-        logger_builder_instance->add_console_stream(console_stream_severity);
+        logger_builder_instance
+            ->add_console_stream(console_stream_severity)
+            ->set_format("%d %t %s %m");
     }
     
     for (auto &output_file_stream_setup: output_file_streams_setup)
     {
-        logger_builder_instance->add_file_stream(output_file_stream_setup.first, output_file_stream_setup.second);
+        logger_builder_instance
+            ->add_file_stream(output_file_stream_setup.first, output_file_stream_setup.second)
+            ->set_format("%d %t %s %m");
     }
     
     logger *logger_instance = logger_builder_instance->build();
@@ -37,6 +41,14 @@ TEST(positiveTests, test1)
             {
                 "allocator_buddies_system_positiveTests_test1.txt",
                 logger::severity::information
+            },
+            {
+                "allocator_buddies_system_positiveTests_test1.txt",
+                logger::severity::debug
+            },
+            {
+                "allocator_buddies_system_positiveTests_test1.txt",
+                logger::severity::error
             }
         });
     allocator *allocator_instance = new allocator_buddies_system(12, nullptr, logger_instance, allocator_with_fit_mode::fit_mode::first_fit);
@@ -62,8 +74,16 @@ TEST(positiveTests, test2)
     logger *logger_instance = create_logger(std::vector<std::pair<std::string, logger::severity>>
         {
             {
-                "allocator_buddies_system_positiveTests_test1.txt",
+                "allocator_buddies_system_positiveTests_test2.txt",
                 logger::severity::information
+            },
+            {
+                "allocator_buddies_system_positiveTests_test2.txt",
+                logger::severity::debug
+            },
+            {
+                "allocator_buddies_system_positiveTests_test2.txt",
+                logger::severity::error
             }
         });
     allocator *allocator_instance = new allocator_buddies_system(8, nullptr, logger_instance, allocator_with_fit_mode::fit_mode::first_fit);
@@ -92,7 +112,23 @@ TEST(positiveTests, test2)
 
 TEST(positiveTests, test3)
 {
-    allocator *allocator_instance = new allocator_buddies_system(8, nullptr, nullptr, allocator_with_fit_mode::fit_mode::first_fit);
+    logger *logger_instance = create_logger(std::vector<std::pair<std::string, logger::severity>>
+        {
+            {
+                "allocator_buddies_system_positiveTests_test3.txt",
+                logger::severity::information
+            },
+            {
+                "allocator_buddies_system_positiveTests_test3.txt",
+                logger::severity::debug
+            },
+            {
+                "allocator_buddies_system_positiveTests_test3.txt",
+                logger::severity::error
+            }
+        });
+    
+    allocator *allocator_instance = new allocator_buddies_system(8, nullptr, logger_instance, allocator_with_fit_mode::fit_mode::first_fit);
     
     void *first_block = allocator_instance->allocate(sizeof(unsigned char), 0);
     void *second_block = allocator_instance->allocate(sizeof(unsigned char), 0);

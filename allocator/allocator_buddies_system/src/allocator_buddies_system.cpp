@@ -11,6 +11,10 @@ allocator_buddies_system::~allocator_buddies_system()
         return;
     }
 
+    this->
+        debug_with_guard(get_typename()
+        + " Destruct the object...");
+
     destruct(reinterpret_cast<std::mutex *>(reinterpret_cast<byte *>(_trusted_memory) + get_mutex_shift()));
 
     deallocate_with_guard(_trusted_memory);
@@ -58,7 +62,7 @@ allocator_buddies_system::allocator_buddies_system(
 {
     if(space_size > UCHAR_MAX) 
     {
-        throw std::runtime_error("Не придумал :3");
+        throw std::runtime_error("");
     }
     size_t size_of_trusted_memory = get_global_meta_size() + (1 << space_size);
     if(1 << space_size < get_free_block_meta_size()) 
@@ -88,6 +92,12 @@ allocator_buddies_system::allocator_buddies_system(
     *reinterpret_cast<void **>(first_block + get_p_prev_shift()) = nullptr;
     *reinterpret_cast<void **>(first_block + get_p_next_shift()) = nullptr;
     *(first_block + get_size_of_free_block_shift()) = static_cast<byte>(space_size);
+
+    this->
+        debug_with_guard(get_typename()
+        + " Allocator size is "
+        + std::to_string(int(std::pow(2, space_size)))
+        + " bytes");
 }
 
 [[nodiscard]] void *allocator_buddies_system::allocate(
@@ -101,25 +111,61 @@ allocator_buddies_system::allocator_buddies_system(
 
     if(*reinterpret_cast<void **>(reinterpret_cast<byte *>(_trusted_memory) + get_first_free_block_shift()) == nullptr) 
     {
+        this->
+            error_with_guard(get_typename()
+            + "err1");
         throw std::bad_alloc();
     }
 
     std::lock_guard<std::mutex> locker(*reinterpret_cast<std::mutex *>(reinterpret_cast<byte *>(_trusted_memory) + get_mutex_shift()));
+
+    this->
+        trace_with_guard(get_typename()
+        + " Lock the mutex");
+
     auto fit = *reinterpret_cast<allocator_with_fit_mode::fit_mode *>(reinterpret_cast<byte *>(_trusted_memory) + get_fit_mode_shift());
     byte size_of_new_blockShift = get_minimal_shift_of_block_size(get_occupied_block_meta_size() + (value_size * values_count));
+
+    auto actual_blocks_state = this->get_blocks_info();
+    std::string blocks_info(" ");
+    for (const auto& value : actual_blocks_state) 
+    {
+        blocks_info += (value.is_block_occupied ? "Occupied " : "Free ") + std::to_string(value.block_size) + " bytes -> ";
+    }
+    this->
+        information_with_guard(get_typename()
+        + blocks_info);
+
+    this->
+        debug_with_guard(get_typename()
+        + " Attempt to allocate block with size: "
+        + std::to_string(value_size * values_count)
+        + " bytes");
 
     switch (fit) 
     {
         case allocator_with_fit_mode::fit_mode::first_fit:
+            this-> 
+                debug_with_guard(get_typename()
+                + " Allocate with first fit...");
             return allocate_first_fit(size_of_new_blockShift);
             break;
         case allocator_with_fit_mode::fit_mode::the_best_fit:
+            this-> 
+                debug_with_guard(get_typename()
+                + " Allocate with best fit...");
             return allocate_best_fit(size_of_new_blockShift);
             break;
         case allocator_with_fit_mode::fit_mode::the_worst_fit:
+            this-> 
+                debug_with_guard(get_typename()
+                + " Allocate with worst fit...");
             return allocate_worst_fit(size_of_new_blockShift);
             break;
         default:
+            this->
+                error_with_guard(get_typename()
+                + " Unknown fitMode");
             throw std::runtime_error("Unknown fitMode");
     }
 }
@@ -137,17 +183,27 @@ void allocator_buddies_system::deallocate(
         throw std::logic_error("Allocator is empty");
     }
 
+    this->
+        debug_with_guard(get_typename()
+        + " Attempt to deallocate...");
+
     at = reinterpret_cast<byte *>(at) - get_occupied_block_meta_size();
     void *p_first = reinterpret_cast<byte *>(_trusted_memory) + get_global_meta_size(),
         *p_last = reinterpret_cast<byte *>(_trusted_memory) + *reinterpret_cast<size_t *>(reinterpret_cast<byte *>(_trusted_memory) + get_size_of_trusted_memory_shift());
     
     if(at < p_first || at > p_last)
     {
+        this->
+            error_with_guard(get_typename()
+            + " Ptr is non consists to that allocator");
         throw std::logic_error("Ptr is non consists to that allocator");
     }
 
     if(*reinterpret_cast<void **>(reinterpret_cast<byte *>(at) + get_tm_pointer_shift()) != _trusted_memory) 
     {
+        this->
+            error_with_guard(get_typename()
+            + " Ptr not belong to that allocator");
         throw std::logic_error("Ptr not belong to that allocator");
     }
 
@@ -156,7 +212,7 @@ void allocator_buddies_system::deallocate(
 
     if(p_right == nullptr) 
     {
-        //У нас нет ни одного блока :(
+        //У нас нет ни одного блока
         *reinterpret_cast<void **>(reinterpret_cast<byte *>(_trusted_memory) + get_first_free_block_shift()) = at;
         *reinterpret_cast<void **>(reinterpret_cast<byte *>(at) + get_p_prev_shift()) = nullptr;
         *reinterpret_cast<void **>(reinterpret_cast<byte *>(at) + get_p_next_shift()) = nullptr;
@@ -184,7 +240,10 @@ void allocator_buddies_system::deallocate(
             unite_block(at);
             return;
         }
-        if(*reinterpret_cast<void **>(reinterpret_cast<byte *>(p_right) + get_p_next_shift()) == nullptr) break;
+        if(*reinterpret_cast<void **>(reinterpret_cast<byte *>(p_right) + get_p_next_shift()) == nullptr) 
+        {
+            break;
+        }
         p_right = *reinterpret_cast<void **>(reinterpret_cast<byte *>(p_right) + get_p_next_shift());
     }
 
@@ -194,6 +253,12 @@ void allocator_buddies_system::deallocate(
     *reinterpret_cast<void **>(reinterpret_cast<byte *>(at) + get_p_next_shift()) = nullptr;
     *(reinterpret_cast<byte *>(at) + get_size_of_free_block_shift()) = size_of_block;
     unite_block(at);
+
+    this->
+        debug_with_guard(get_typename()
+        + " Succesfully deallocate block with size: "
+        + std::to_string(size_of_block)
+        + " bytes");
 }
 
 inline void allocator_buddies_system::set_fit_mode(
@@ -441,6 +506,22 @@ void *allocator_buddies_system::allocate_block(void *block)
 
     *reinterpret_cast<void **>(reinterpret_cast<byte *>(block) + get_tm_pointer_shift()) = _trusted_memory;
     *(reinterpret_cast<byte *>(block) + get_size_of_occupied_block_shift()) = size_of_block;
+
+    auto actual_blocks_state = this->get_blocks_info();
+    std::string blocks_info(" ");
+    for (const auto& value : actual_blocks_state) 
+    {
+        blocks_info += (value.is_block_occupied ? "Occupied " : "Free ") + std::to_string(value.block_size) + " bytes -> ";
+    }
+    this->
+        information_with_guard(get_typename()
+        + blocks_info);
+
+    this->
+        debug_with_guard(get_typename()
+        + " Succesfully allocate the block with size: "
+        + std::to_string(size_of_block)
+        + " bytes");
 
     return reinterpret_cast<byte *>(block) + get_occupied_block_meta_size();
 }
